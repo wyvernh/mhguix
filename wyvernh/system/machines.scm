@@ -59,8 +59,8 @@
 
 (define %wyvernh-channels
   (cons* (channel
-          (name 'Guix-config)
-          (url "https://github.com/WyvernH/Guix-config"))
+          (name 'mhguix)
+          (url "https://github.com/WyvernH/mhguix"))
          (channel
           (name 'nonguix)
           (url "https://gitlab.com/nonguix/nonguix")
@@ -78,7 +78,7 @@
   (cons*
    (kmonad-service "/home/matthew/.config/kmonad/config.kbd")
    (modify-services %desktop-services
-		    (delete gdm-service-type)
+		                (delete gdm-service-type)
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
