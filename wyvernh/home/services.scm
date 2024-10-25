@@ -1,6 +1,7 @@
 (define-module (wyvernh home services)
   #:use-module (gnu home services desktop)
   #:use-module (gnu home services shells)
+  #:use-module (gnu home services shepherd)
   #:use-module (gnu home services sound)
   #:use-module (gnu home)
   #:use-module (gnu services)
@@ -13,6 +14,9 @@
 
 (define %wyvernh-home-services
   (list
+   (service home-dbus-service-type)
+   (service home-shepherd-service-type)
+   (service home-pipewire-service-type)
    ;(service wyvernh-emacs-service-type)
    ;(service wyvernh-ssh-service-type)
    (service wyvernh-sway-service-type)

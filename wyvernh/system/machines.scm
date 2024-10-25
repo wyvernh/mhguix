@@ -11,6 +11,7 @@
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages shells)
   #:use-module (gnu packages version-control)
+  #:use-module (gnu packages wm)
   #:use-module (gnu services desktop)
   #:use-module (gnu services xorg)
   #:use-module (guix channels)
@@ -74,11 +75,28 @@
 (define %wyvernh-groups
   (cons* matthew-group plugdev-group uinput-group %base-groups))
 
+(define (auto-login-to-tty config tty user)
+  (if (string=? tty (mingetty-configuration-tty config))
+        (mingetty-configuration
+         (inherit config)
+         (auto-login user))
+        config))
+
 (define %wyvernh-base-services
   (cons*
    (kmonad-service "/home/matthew/.config/kmonad/config.kbd")
+   (service screen-locker-service-type
+                        (screen-locker-configuration
+                         (name "swaylock")
+                         (program (file-append swaylock "/bin/swaylock"))
+                         (using-pam? #t)
+                         (using-setuid? #f)))
+   (udev-rules-service 'pipewire-add-udev-rules pipewire)
    (modify-services %desktop-services
-		                (delete gdm-service-type)
+		    (delete gdm-service-type)
+		    (mingetty-service-type config =>
+                           (auto-login-to-tty
+                            config "tty2" "matthew"))
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
