@@ -98,7 +98,8 @@ method=auto
                         (cons tty (file-append font-terminus "/share/consolefonts/ter-132n")))
                       '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6"))))
      (list
-      (service etc-service-type (list `("NetworkManager/system-connections/ubcsecure.nmconnection"
+      (simple-service 'ubcsecure-nmconnection etc-service-type
+                      (list `("NetworkManager/system-connections/ubcsecure.nmconnection"
 					,ubcsecure-nmconnection))))))))
 
 wyvernh-system-bawyvernh
