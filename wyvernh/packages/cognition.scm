@@ -1,4 +1,4 @@
-(define-module (metacrank cognition)
+(define-module (wyvernh packages cognition)
   #:use-module (guix licenses)
   #:use-module (guix packages)
   #:use-module (guix download)
