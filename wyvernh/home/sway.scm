@@ -14,6 +14,7 @@
   #:use-module (gnu services configuration)
   #:use-module (gnu services)
   #:use-module (nongnu packages mozilla)
+  #:use-module (wyvernh packages cognition)
   #:use-module (guix gexp)
   #:use-module (guix packages)
   #:use-module (guix utils)
@@ -38,6 +39,7 @@
         emacs-next-pgtk
 	kitty
 	firefox
+	cognition
 	grim
         xdg-desktop-portal
         xdg-desktop-portal-wlr
