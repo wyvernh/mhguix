@@ -100,6 +100,6 @@ method=auto
      (list
       (simple-service 'ubcsecure-nmconnection etc-service-type
                       (list `("NetworkManager/system-connections/ubcsecure.nmconnection"
-					,ubcsecure-nmconnection))))))))
+			      ,ubcsecure-nmconnection))))))))
 
 wyvernh-system-bawyvernh
