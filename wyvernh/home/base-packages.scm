@@ -3,8 +3,10 @@
   #:use-module (gnu packages cmake)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages emacs-xyz)
+  #:use-module (gnu packages engineering)
   #:use-module (gnu packages fonts)
   #:use-module (gnu packages llvm)
+  #:use-module (gnu packages music)
   #:use-module (gnu packages web)
   #:use-module (nongnu packages mozilla)
   #:use-module (nongnu packages nvidia)
@@ -51,7 +53,7 @@
 	emacs-rainbow-delimiters
 
 	font-fira-code
-	
+
 	emacs-magit
 
 	emacs-geiser
@@ -61,7 +63,10 @@
 	emacs-vterm
 
 	emacs-elfeed
-	
+
+	kicad
+	musescore
+
 	firefox
 	cognition
 	htop
