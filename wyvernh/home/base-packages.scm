@@ -1,7 +1,10 @@
 (define-module (wyvernh home base-packages)
   #:use-module (gnu packages admin)
+  #:use-module (gnu packages cmake)
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages emacs-xyz)
+  #:use-module (gnu packages fonts)
+  #:use-module (gnu packages llvm)
   #:use-module (gnu packages web)
   #:use-module (nongnu packages mozilla)
   #:use-module (nongnu packages nvidia)
@@ -22,7 +25,33 @@
 	emacs-org-roam
 	emacs-org-appear
 	emacs-org-ql
+	emacs-ob-async
 
+	emacs-auctex
+	emacs-latex-preview-pane
+	emacs-latex-extra
+	emacs-cdlatex
+
+	emacs-lsp-mode
+	emacs-lsp-treemacs
+	emacs-lsp-ui
+
+	emacs-cmake-mode
+
+	emacs-csv-mode
+	emacs-gnuplot
+	emacs-cc-mode
+	emacs-clang-format
+	emacs-rustic
+	emacs-ligature
+	emacs-doom-modeline
+
+	emacs-solaire-mode
+	emacs-doom-themes
+	emacs-rainbow-delimiters
+
+	font-fira-code
+	
 	emacs-magit
 
 	emacs-geiser
