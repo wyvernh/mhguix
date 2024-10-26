@@ -1,6 +1,7 @@
 (define-module (wyvernh home configs baywyvernh)
   #:use-module (gnu home)
   #:use-module (gnu services)
+  #:use-module (wyvernh home base-packages)
   #:use-module (wyvernh home services)
   #:use-module (wyvernh home sway)
   #:use-module (wyvernh home waybar)
@@ -8,6 +9,7 @@
 
 (define wyvernh-home-environment
   (home-environment
+   (packages %wyvernh-base-packages)
    (services
     (modify-services
      %wyvernh-home-services

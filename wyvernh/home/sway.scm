@@ -3,20 +3,16 @@
   #:use-module (gnu home services shepherd)
   #:use-module (gnu home services)
   #:use-module (gnu packages bash)
-  #:use-module (gnu packages emacs)
   #:use-module (gnu packages fonts)
   #:use-module (gnu packages freedesktop)
   #:use-module (gnu packages hardware)
   #:use-module (gnu packages image)
   #:use-module (gnu packages music)
   #:use-module (gnu packages terminals)
-  #:use-module (gnu packages web)
   #:use-module (gnu packages wm)
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu services configuration)
   #:use-module (gnu services)
-  #:use-module (nongnu packages mozilla)
-  #:use-module (wyvernh packages cognition)
   #:use-module (guix gexp)
   #:use-module (guix packages)
   #:use-module (guix utils)
@@ -39,10 +35,7 @@
         swayidle
         swaylock
 	fuzzel
-        emacs-next-pgtk
 	kitty
-	firefox
-	cognition
 	grim
         xdg-desktop-portal
         xdg-desktop-portal-wlr
