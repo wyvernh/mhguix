@@ -9,6 +9,7 @@
   #:use-module (gnu packages linux)
   #:use-module (gnu packages llvm)
   #:use-module (gnu packages music)
+  #:use-module (gnu packages python)
   #:use-module (gnu packages rust)
   #:use-module (gnu packages valgrind)
   #:use-module (gnu packages web)
@@ -76,6 +77,7 @@
 
         perf
         valgrind
+        python
 
         firefox
         cognition
