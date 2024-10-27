@@ -10,6 +10,7 @@
   #:use-module (gnu packages llvm)
   #:use-module (gnu packages music)
   #:use-module (gnu packages rust)
+  #:use-module (gnu packages valgrind)
   #:use-module (gnu packages web)
   #:use-module (nongnu packages mozilla)
   #:use-module (nongnu packages nvidia)
@@ -74,6 +75,7 @@
         musescore
 
         perf
+        valgrind
 
         firefox
         cognition
