@@ -6,6 +6,7 @@
   #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages engineering)
   #:use-module (gnu packages fonts)
+  #:use-module (gnu packages linux)
   #:use-module (gnu packages llvm)
   #:use-module (gnu packages music)
   #:use-module (gnu packages rust)
@@ -71,6 +72,8 @@
 
         kicad
         musescore
+
+        perf
 
         firefox
         cognition
