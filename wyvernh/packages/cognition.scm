@@ -6,7 +6,8 @@
   #:use-module (guix git-download)
   #:use-module (guix utils)
   #:use-module (guix build-system cargo)
-  #:use-module (gnu packages))
+  #:use-module (gnu packages)
+  #:use-module (gnu packages crates-io))
 
 (define-public cognition
   (package
@@ -17,11 +18,14 @@
      (method git-fetch)
      (uri (git-reference
            (url "https://github.com/metacrank/cognition-rust.git")
-           (commit "8b94172d740a646474bd9a2982f19dd2928efbb8")))
+           (commit "0dd4dc0fecca756b7926adcb20d79d3d070b4cff")))
      (sha256
       (base32
-       "1cz3gswvfbqzxz89dcmxy2wk05jg3635k2sdmrjn5bgdi0l2w3ly"))))
+       "1kpgx8amdbs3p7gn15cfkcy0d680kzpagl7jybkw8iynsv573bzi"))))
    (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs
+      (("libloading" ,rust-libloading-0.8))))
    (synopsis "An unopinionated programming language which offers full publicity of syntax and tokenization.")
    (description
     "Cognition is a fully introspective system designed so that the syntax and hierarchy structure of the
