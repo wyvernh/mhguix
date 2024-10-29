@@ -8,6 +8,7 @@
   #:use-module (gnu home services)
   ;#:use-module (wyvernh home emacs)
   ;#:use-module (wyvernh home ssh)
+  #:use-module (wyvernh home emacs)
   #:use-module (wyvernh home sway)
   #:use-module (wyvernh home waybar)
   #:use-module (wyvernh home wayland)
@@ -16,9 +17,10 @@
 (define %wyvernh-home-services
   (list
    (simple-service 'env-vars-service
-		home-environment-variables-service-type
-		`(("PATH" . "$PATH:/home/matthew/.cargo/bin")))
+    home-environment-variables-service-type
+    `(("PATH" . "$PATH:/home/matthew/.cargo/bin")))
    (service home-dbus-service-type)
+   (service home-emacs-server-service-type)
    (service home-shepherd-service-type)
    (service home-pipewire-service-type)
    ;(service wyvernh-emacs-service-type)
