@@ -2,6 +2,7 @@
   #:use-module (gnu home services shepherd)
   #:use-module (gnu packages emacs)
   #:use-module (gnu services)
+  #:use-module (guix gexp)
   #:export (home-emacs-server-service-type))
 
 (define (emacs-server-shepherd-service config)
