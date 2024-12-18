@@ -1,6 +1,6 @@
 (define-module (wyvernh system machines)
   #:use-module (wyvernh services kmonad)
-  ;#:use-module (wyvernh packages cogsh)
+  ;;#:use-module (wyvernh packages cogsh)
   #:use-module (gnu)
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
