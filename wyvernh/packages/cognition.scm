@@ -9,23 +9,55 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages crates-io))
 
-(define-public cognition
+(define-public cognition-macros-0.1
   (package
-   (name "cognition")
-   (version "0.2.1")
+   (name "cognition-macros")
+   (version "0.1.2")
    (source
     (origin
      (method git-fetch)
      (uri (git-reference
            (url "https://github.com/metacrank/cognition-rust.git")
-           (commit "ae55751d45d602baf12686704a4a01bfd0a06f46")))
+           (commit "bcedd8471ed23517ca544fff040bfd00486ea8d7")))
      (sha256
       (base32
-       "0yx360k2fhj8cda58x6xyv62zhi8ib229k40sc30gpp5w75cj008"))))
+       "1la0p1npsqhmrgnw5zk4w92q8g1h7ywyy2fybap591w0ga8fvn6p"))))
    (build-system cargo-build-system)
    (arguments
     `(#:cargo-inputs
-      (("libloading" ,rust-libloading-0.8))))
+      (("proc-macro2" ,rust-proc-macro2-1)
+       ("serde" ,rust-quote-1)
+       ("syn" ,rust-syn-2))))
+   (synopsis "Procedural macros for Cognition.")
+   (description
+    "Includes the cognition::custom attribute macro, which aids the implementation of custom types in Cognition fllibs.")
+   (home-page "https://github.com/metacrank/cognition-rust")
+   (license expat)))
+
+(define-public cognition-0.3
+  (package
+   (name "cognition")
+   (version "0.3.10")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/metacrank/cognition-rust.git")
+           (commit "252e5bd36982ddf2e39a351558719cb70fabd04d")))
+     (sha256
+      (base32
+       "1bk751x11mwcm70pl2q2s89b3y7m9aw0px2xkq50njhsl3j54ccg"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-inputs
+      (("libloading" ,rust-libloading-0.8)
+       ("serde" ,rust-serde-1)
+       ("serde_json" ,rust-serde-json-1)
+       ("erased-serde" ,rust-erased-serde-0.4)
+       ("cognition-macros" ,cognition-macros-0.1))
+      #:phases
+      (modify-phases %standard-phases
+                     (delete 'package))))
    (synopsis "An unopinionated programming language which offers full publicity of syntax and tokenization.")
    (description
     "Cognition is a fully introspective system designed so that the syntax and hierarchy structure of the
@@ -38,5 +70,3 @@
      into something like the AST without having to explicitly program a rigid syntax.")
    (home-page "https://github.com/metacrank/cognition-rust")
    (license expat)))
-
-cognition

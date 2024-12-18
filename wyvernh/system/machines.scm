@@ -1,5 +1,6 @@
 (define-module (wyvernh system machines)
   #:use-module (wyvernh services kmonad)
+  #:use-module (wyvernh packages cogsh)
   #:use-module (gnu)
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
@@ -93,8 +94,8 @@
                          (using-setuid? #f)))
    (udev-rules-service 'pipewire-add-udev-rules pipewire)
    (modify-services %desktop-services
-		    (delete gdm-service-type)
-		    (mingetty-service-type config =>
+        (delete gdm-service-type)
+        (mingetty-service-type config =>
                            (auto-login-to-tty
                             config "tty2" "matthew"))
                     (guix-service-type
