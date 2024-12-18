@@ -15,7 +15,8 @@
   #:use-module (gnu packages web)
   #:use-module (nongnu packages mozilla)
   #:use-module (nongnu packages nvidia)
-  ;#:use-module (wyvernh packages cognition)
+  #:use-module (wyvernh packages cognition)
+  #:use-module (wyvernh packages cogsh)
   #:export (%wyvernh-base-packages))
 
 (define %wyvernh-base-packages
@@ -80,6 +81,7 @@
         python
 
         firefox
-        ;cognition
+        cognition-0.3
+        cogsh
         htop
         nvidia-htop))
