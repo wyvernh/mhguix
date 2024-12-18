@@ -1,6 +1,6 @@
 (define-module (wyvernh system machines)
   #:use-module (wyvernh services kmonad)
-  #:use-module (wyvernh packages cogsh)
+  ;#:use-module (wyvernh packages cogsh)
   #:use-module (gnu)
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
@@ -44,6 +44,7 @@
    (uid 1000)
    (group "matthew")
    (shell (file-append zsh "/bin/zsh"))
+   ;;(shell (file-append cogsh "/bin/cogsh"))
    (supplementary-groups
     '("audio"
       "input"
