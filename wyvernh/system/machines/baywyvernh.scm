@@ -23,6 +23,12 @@
     (device (file-system-label "EFI SYSTEM"))
     (type "vfat")))
 
+(define fs-gnu
+  (file-system
+    (mount-point "/gnu")
+    (device (file-system-label "GNU"))
+    (type "ext4")))
+
 (define %baywyvernh-swap-devices
   (list (swap-space (target (file-system-label "Swap")))))
 
@@ -55,7 +61,8 @@
     (file-systems
      (append
       (list fs-root
-            fs-efi)
+            fs-efi
+            fs-gnu)
       %base-file-systems))
     (swap-devices %baywyvernh-swap-devices)
     (services
