@@ -27,7 +27,7 @@
   (file-system
     (mount-point "/gnu")
     (device (file-system-label "GNU"))
-    (type "ext4")))
+    (type "btrfs")))
 
 (define %baywyvernh-swap-devices
   (list (swap-space (target (file-system-label "Swap")))))
