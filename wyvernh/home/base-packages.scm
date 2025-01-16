@@ -52,7 +52,7 @@
         emacs-clang-format
         emacs-rustic
         rust-analyzer
-        rust-clippy-0.0
+        ;;rust-clippy-0.0
         emacs-ligature
         emacs-doom-modeline
 
