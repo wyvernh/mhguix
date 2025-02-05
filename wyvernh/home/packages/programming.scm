@@ -1,5 +1,6 @@
 (define-module (wyvernh home packages programming)
   #:use-module (gnu packages python)
+  #:use-module (gnu packages qt)
   #:use-module (gnu packages valgrind)
   #:use-module (gnu packages linux)
   #:export (%wyvernh-programming-packages))
