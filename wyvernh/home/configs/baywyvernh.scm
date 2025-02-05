@@ -18,7 +18,7 @@
 (define %baywyvernh-packages
   (append %wyvernh-packages
           %wyvernh-latex-packages
-          %wyvernh-nvidia-packages
+          ;%wyvernh-nvidia-packages
           %wyvernh-core-packages
           %wyvernh-emacs-packages
           %wyvernh-engineering-packages
