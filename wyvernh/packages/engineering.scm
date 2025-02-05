@@ -119,7 +119,7 @@
 (define-public libarcus
   (package
     (name "libarcus")
-    (version "5.9.0") ; Should same version as Cura package.
+    (version "5.2.2") ; Should same version as Cura package.
     (source
      (origin
        (method git-fetch)
@@ -128,7 +128,7 @@
              (commit version)))
        (file-name (git-file-name name version))
        (sha256
-        (base32 "19fi0y0lk45cyampczgh3kz2swai4zcgzkffp0xx5h55rxxrdpvk"))))
+        (base32 "16vdjlfc4kk8a78siaw00sfxhwd8iigw3nfkfvis773s7sn0qd3b"))))
     (build-system cmake-build-system)
     (inputs
      (list protobuf
@@ -527,3 +527,5 @@ python bindings.  It belongs to the Cura project from Ultimaker.")
     (description "Cura is a slicing software from Ultimaker.  A @emph{slicer}
 generates G-Code for 3D printers.")
     (license license:lgpl3+)))
+
+libarcus
