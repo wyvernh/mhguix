@@ -2,7 +2,8 @@
   #:use-module (gnu home)
   #:use-module (gnu services)
   ;#:use-module (wyvernh home base-packages)
-  #:use-module (wyvernh home package-modules)
+  ;#:use-module (wyvernh home package-modules)
+  #:use-module (wyvernh home packages latex)
   #:use-module (wyvernh home services)
   #:use-module (wyvernh home sway)
   #:use-module (wyvernh home waybar)
@@ -10,7 +11,7 @@
 
 (define %baywyvernh-packages
   (append ;;%wyvernh-packages
-          ;;%wyvernh-latex-packages
+          %wyvernh-latex-packages))
           ;;%wyvernh-nvidia-packages
           ;;%wyvernh-core-packages
           ;;%wyvernh-emacs-packages
@@ -18,7 +19,7 @@
           ;;%wyvernh-programming-packages
           ;;%wyvernh-desktop-packages
    ;;%wyvernh-package-module-latex))
-   %wyvernh-test-packages))
+   ;;%wyvernh-test-packages))
 ;;(list))
 
 (define baywyvernh-home-environment
