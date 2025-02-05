@@ -24,9 +24,7 @@
           ;;%wyvernh-engineering-packages
           ;;%wyvernh-programming-packages
           ;;%wyvernh-desktop-packages
-   ;;%wyvernh-package-module-latex))
-   ;;%wyvernh-test-packages))
-;;(list))
+          ;;%wyvernh-misc-packages))
 
 (define baywyvernh-home-environment
   (home-environment
