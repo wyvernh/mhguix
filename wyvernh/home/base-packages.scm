@@ -1,4 +1,4 @@
- (define-module (wyvernh home base-packages)
+ (define-module (wyvernh home base-packages))
 ;;   #:use-module (gnu packages admin)
 ;;   #:use-module (gnu packages cmake)
 ;;   #:use-module (gnu packages crates-io)
