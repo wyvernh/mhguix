@@ -1,15 +1,29 @@
 (define-module (wyvernh home configs baywyvernh)
   #:use-module (gnu home)
   #:use-module (gnu services)
-  #:use-module (wyvernh home base-packages)
+  ;#:use-module (wyvernh home base-packages)
+  #:use-module (wyvernh home package-modules)
   #:use-module (wyvernh home services)
   #:use-module (wyvernh home sway)
   #:use-module (wyvernh home waybar)
-  #:export (wyvernh-home-environment))
+  #:export (baywyvernh-home-environment))
 
-(define wyvernh-home-environment
+(define %baywyvernh-packages
+  ;(append ;;%wyvernh-packages
+          ;;%wyvernh-latex-packages
+          ;;%wyvernh-nvidia-packages
+          ;;%wyvernh-core-packages
+          ;;%wyvernh-emacs-packages
+          ;;%wyvernh-engineering-packages
+          ;;%wyvernh-programming-packages
+          ;;%wyvernh-desktop-packages
+   ;;%wyvernh-misc-packages))
+   ;;%wyvernh-test-packages))
+(list))
+
+(define baywyvernh-home-environment
   (home-environment
-   (packages %wyvernh-base-packages)
+   (packages %baywyvernh-packages)
    (services
     (modify-services
      %wyvernh-home-services
@@ -21,4 +35,4 @@
                  (machine "baywyvernh")
                  (font-size "20px")))))))
 
-wyvernh-home-environment
+baywyvernh-home-environment

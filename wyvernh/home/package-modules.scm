@@ -16,4 +16,7 @@
   #:export (%wyvernh-engineering-packages)
   #:export (%wyvernh-programming-packages)
   #:export (%wyvernh-desktop-packages)
-  #:export (%wyvernh-misc-packages))
+  #:export (%wyvernh-misc-packages)
+  #:export (%wyvernh-test-packages))
+
+(define %wyvernh-test-packages (list))
