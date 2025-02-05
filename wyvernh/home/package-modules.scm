@@ -1,4 +1,4 @@
-;; (define-module (wyvernh home package-modules))
+ (define-module (wyvernh home package-modules))
 ;;   #:use-module (wyvernh home packages emacs)
 ;;   #:use-module (wyvernh home packages engineering)
 ;;   #:use-module (wyvernh home packages programming)
