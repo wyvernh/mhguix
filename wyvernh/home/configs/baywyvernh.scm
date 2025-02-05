@@ -16,15 +16,15 @@
   #:export (baywyvernh-home-environment))
 
 (define %baywyvernh-packages
-  (append ;;%wyvernh-packages
-          %wyvernh-latex-packages))
-          ;;%wyvernh-nvidia-packages
-          ;;%wyvernh-core-packages
-          ;;%wyvernh-emacs-packages
-          ;;%wyvernh-engineering-packages
-          ;;%wyvernh-programming-packages
-          ;;%wyvernh-desktop-packages
-          ;;%wyvernh-misc-packages))
+  (append %wyvernh-packages
+          %wyvernh-latex-packages
+          %wyvernh-nvidia-packages
+          %wyvernh-core-packages
+          %wyvernh-emacs-packages
+          %wyvernh-engineering-packages
+          %wyvernh-programming-packages
+          %wyvernh-desktop-packages
+          %wyvernh-misc-packages))
 
 (define baywyvernh-home-environment
   (home-environment
