@@ -17,7 +17,7 @@
           ;;%wyvernh-engineering-packages
           ;;%wyvernh-programming-packages
           ;;%wyvernh-desktop-packages
-   ;;%wyvernh-misc-packages))
+   ;;%wyvernh-package-module-latex))
    %wyvernh-test-packages))
 ;;(list))
 
