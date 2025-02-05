@@ -17,7 +17,7 @@
         valgrind
         python
         python-pyqt
-        make
+        gnu-make
         cmake
         gcc-toolchain
         pkg-config
