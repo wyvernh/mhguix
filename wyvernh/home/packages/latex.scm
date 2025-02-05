@@ -1,5 +1,6 @@
 (define-module (wyvernh home packages latex)
   #:use-module (gnu packages tex)
+  #:use-module (gnu packages texlive)
   #:export (%wyvernh-latex-packages))
 
 (define %wyvernh-latex-packages
