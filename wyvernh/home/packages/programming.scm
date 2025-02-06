@@ -25,5 +25,5 @@
         m4
         rust
         rust-cargo
-        ;;make-arm-none-eabi-toolchain-12.3.rel1))
-))
+        make-arm-none-eabi-toolchain-12.3.rel1))
+;;))
