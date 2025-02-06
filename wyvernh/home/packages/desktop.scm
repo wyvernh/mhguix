@@ -26,6 +26,7 @@
         alacritty
         pavucontrol
         libreoffice
+        font-fira-code
         font-liberation
         font-gnu-freefont
         fontconfig
