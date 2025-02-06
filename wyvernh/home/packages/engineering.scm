@@ -6,6 +6,6 @@
 (define %wyvernh-engineering-packages
   (list kicad
         freecad
-        cura
+        ;;cura
         prusa-slicer
         xoscope))
