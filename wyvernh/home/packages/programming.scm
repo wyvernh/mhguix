@@ -10,6 +10,7 @@
   #:use-module (gnu packages qt)
   #:use-module (gnu packages valgrind)
   #:use-module (gnu packages linux)
+  #:use-module (gnu packages embedded)
   #:export (%wyvernh-programming-packages))
 
 (define %wyvernh-programming-packages
@@ -23,4 +24,5 @@
         pkg-config
         m4
         rust
-        rust-cargo))
+        rust-cargo
+        make-arm-none-eabi-toolchain-12.3.rel1))
