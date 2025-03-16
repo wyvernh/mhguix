@@ -4,6 +4,7 @@
   #:use-module (gnu)
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
+  #:use-module (nongnu packages nvidia)
   #:use-module (nongnu system linux-initrd)
   #:use-module (gnu packages audio)
   #:use-module (gnu packages emacs)
@@ -72,6 +73,9 @@
             "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
             (openpgp-fingerprint
              "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+         (channel
+          (name 'ollama-guix)
+          (url "https://codeberg.org/tusharhero/ollama-guix"))
          %default-channels))
 
 (define %wyvernh-groups
@@ -88,17 +92,25 @@
   (cons*
    (kmonad-service "/home/matthew/.config/kmonad/config.kbd")
    (service screen-locker-service-type
-                        (screen-locker-configuration
-                         (name "swaylock")
-                         (program (file-append swaylock "/bin/swaylock"))
-                         (using-pam? #t)
-                         (using-setuid? #f)))
+            (screen-locker-configuration
+             (name "swaylock")
+             (program (file-append swaylock "/bin/swaylock"))
+             (using-pam? #t)
+             (using-setuid? #f)))
    (udev-rules-service 'pipewire-add-udev-rules pipewire)
+   (simple-service
+    'custom-udev-rules udev-service-type
+    (list nvidia-driver))
+   (service kernel-module-loader-service-type
+            '("ipmi_devintf"
+              "nvidia"
+              "nvidia_modeset"
+              "nvidia_uvm"))
    (modify-services %desktop-services
-        (delete gdm-service-type)
-        (mingetty-service-type config =>
-                           (auto-login-to-tty
-                            config "tty2" "matthew"))
+                    (delete gdm-service-type)
+                    (mingetty-service-type config =>
+                                           (auto-login-to-tty
+                                            config "tty2" "matthew"))
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
@@ -130,6 +142,7 @@
    (initrd microcode-initrd)
    (kernel-arguments '("modprobe.blacklist=nouveau"
                        "nvidia_drm.modeset=1"))
+   (kernel-loadable-modules (list nvidia-driver))
    (firmware
     (list
      linux-firmware))
