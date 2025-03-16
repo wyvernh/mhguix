@@ -99,14 +99,15 @@
              (using-pam? #t)
              (using-setuid? #f)))
    (udev-rules-service 'pipewire-add-udev-rules pipewire)
-   (simple-service
-    'custom-udev-rules udev-service-type
-    (list nvidia-driver))
-   (service kernel-module-loader-service-type
-            '("ipmi_devintf"
-              "nvidia"
-              "nvidia_modeset"
-              "nvidia_uvm"))
+   (service nvidia-service-type)
+ ;  (simple-service
+ ;   'custom-udev-rules udev-service-type
+ ;   (list nvidia-driver))
+ ;  (service kernel-module-loader-service-type
+ ;           '("ipmi_devintf"
+ ;             "nvidia"
+ ;             "nvidia_modeset"
+ ;             "nvidia_uvm"))
    (modify-services %desktop-services
                     (delete gdm-service-type)
                     (mingetty-service-type config =>
@@ -143,7 +144,7 @@
    (initrd microcode-initrd)
    (kernel-arguments '("modprobe.blacklist=nouveau"
                        "nvidia_drm.modeset=1"))
-   (kernel-loadable-modules (list nvidia-driver))
+;   (kernel-loadable-modules (list nvidia-driver))
    (firmware
     (list
      linux-firmware))
