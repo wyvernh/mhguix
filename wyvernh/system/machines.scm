@@ -5,6 +5,7 @@
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu packages nvidia)
+  #:use-module (nongnu services nvidia)
   #:use-module (nongnu system linux-initrd)
   #:use-module (gnu packages audio)
   #:use-module (gnu packages emacs)
