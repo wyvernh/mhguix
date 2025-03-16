@@ -14,8 +14,8 @@
   #:use-module (gnu packages shells)
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages wm)
-  #:use-module (gnu services)
   #:use-module (gnu services desktop)
+  #:use-module (gnu services linux)
   #:use-module (gnu services xorg)
   #:use-module (guix channels)
   #:export (%wyvernh-base-operating-system
