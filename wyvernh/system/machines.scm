@@ -143,7 +143,7 @@
    (initrd microcode-initrd)
    (kernel-arguments '("modprobe.blacklist=nouveau"
                        "nvidia_drm.modeset=1"))
-;   (kernel-loadable-modules (list nvidia-driver))
+   (kernel-loadable-modules (list nvidia-driver))
    (firmware
     (list
      linux-firmware))
