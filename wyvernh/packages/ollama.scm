@@ -4,6 +4,7 @@
   #:use-module (guix build-system go)
   #:use-module (guix licenses)
   #:use-module (gnu packages golang)
+  #:use-module (gnu packages golang-xyz)
   #:use-module (gnu packages golang-build)
   #:use-module (gnu packages golang-check)
   #:use-module (gnu packages golang-web))
@@ -1229,3 +1230,5 @@ go-github-com-cespare-xxhash-v2
    (synopsis "Ollama")
    (description "Get up and running with large language models locally.")
    (license expat)))
+
+ollama-wyvernh
