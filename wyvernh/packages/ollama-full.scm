@@ -1,4 +1,4 @@
-(define-module (wyvernh packages ollama)
+(define-module (wyvernh packages ollama-full)
   #:use-module (guix packages)
   #:use-module (guix git-download)
   #:use-module (guix build-system go)
@@ -1188,7 +1188,7 @@ go-github-com-cespare-xxhash-v2
    (description "Gin middleware/handler to enable CORS support.")
    (license expat)))
 
-(define-public ollama
+(define-public ollama-wyvernh
   (package
    (name "ollama")
    (version "0.1.30")
