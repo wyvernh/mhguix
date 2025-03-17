@@ -394,6 +394,29 @@ go-github-com-cespare-xxhash-v2
    (synopsis #f)
    (description #f)
    (license asl2.0)))
+(define-public go-google-golang-org-genproto-googleapis-rpc
+  (package
+   (name "go-google-golang-org-genproto-googleapis-rpc")
+   (version "0.0.0-20240325203815-454cdb8f5daa")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/googleapis/go-genproto")
+           (commit (go-version->git-ref version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "0fg1d0rmzsgz97fpa0ymhqsf77djd1xqkg3zp2z72hi14mfxdqch"))))
+   (build-system go-build-system)
+   (arguments
+    (list
+     #:go 1.19
+     #:import-path "google.golang.org/genproto/googleapis/rpc"))
+   (propagated-inputs `(("go-google-golang-org-protobuf" ,go-google-golang-org-protobuf)))
+   (home-page "https://google.golang.org/genproto/googleapis/rpc")
+   (synopsis #f)
+   (description #f)
+   (license asl2.0)))
 (define-public go-google-golang-org-genproto-googleapis-api
   (package
    (name "go-google-golang-org-genproto-googleapis-api")
@@ -478,29 +501,6 @@ go-github-com-cespare-xxhash-v2
    (description
     "Package glog implements logging analogous to the Google-internal C++
   INFO/ERROR/V setup.  It provides functions that have a name matched by regex:")
-   (license asl2.0)))
-(define-public go-google-golang-org-genproto-googleapis-rpc
-  (package
-   (name "go-google-golang-org-genproto-googleapis-rpc")
-   (version "0.0.0-20240325203815-454cdb8f5daa")
-   (source
-    (origin
-     (method git-fetch)
-     (uri (git-reference
-           (url "https://github.com/googleapis/go-genproto")
-           (commit (go-version->git-ref version))))
-     (file-name (git-file-name name version))
-     (sha256
-      (base32 "0fg1d0rmzsgz97fpa0ymhqsf77djd1xqkg3zp2z72hi14mfxdqch"))))
-   (build-system go-build-system)
-   (arguments
-    (list
-     #:go 1.19
-     #:import-path "google.golang.org/genproto/googleapis/rpc"))
-   (propagated-inputs `(("go-google-golang-org-protobuf" ,go-google-golang-org-protobuf)))
-   (home-page "https://google.golang.org/genproto/googleapis/rpc")
-   (synopsis #f)
-   (description #f)
    (license asl2.0)))
 (define-public go-google-golang-org-grpc
   (package
