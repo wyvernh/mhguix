@@ -1,4 +1,4 @@
-(define-module (wyvernh packages ollama-full)
+(define-module (wyvernh packages ollama)
   #:use-module (guix packages)
   #:use-module (guix git-download)
   #:use-module (guix build-system go)
