@@ -144,7 +144,8 @@
    (kernel linux)
    (initrd microcode-initrd)
    (kernel-arguments '("modprobe.blacklist=nouveau"
-                       "nvidia_drm.modeset=1"))
+                       "nvidia_drm.modeset=1"
+                       "nvidia.NVreg_PreserveVideoMemoryAllocations=0"))
 ;   (kernel-loadable-modules (list nvidia-driver))
    (firmware
     (list
