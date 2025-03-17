@@ -417,6 +417,67 @@ go-github-com-cespare-xxhash-v2
    (synopsis #f)
    (description #f)
    (license asl2.0)))
+
+(define-public go-github-com-golang-glog
+  (package
+   (name "go-github-com-golang-glog")
+   (version "1.2.0")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/golang/glog")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "045k834g6br296wzaglh7z2wlgd61mvz1w74naip8v0nbd9a89bq"))))
+   (build-system go-build-system)
+   (arguments
+    (list
+     #:go 1.19
+     #:import-path "github.com/golang/glog"))
+   (home-page "https://github.com/golang/glog")
+   (synopsis "glog")
+   (description
+    "Package glog implements logging analogous to the Google-internal C++
+  INFO/ERROR/V setup.  It provides functions that have a name matched by regex:")
+   (license asl2.0)))
+(define-public go-google-golang-org-grpc
+  (package
+   (name "go-google-golang-org-grpc")
+   (version "1.62.1")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/grpc/grpc-go")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "0sa9jx4pjzd0gdix8lzalxq0ry32lkr4mkswx7rxcrawpy0yjy3x"))))
+   (build-system go-build-system)
+   (arguments
+    (list
+     #:go 1.19
+     #:import-path "google.golang.org/grpc"))
+   (propagated-inputs `(("go-google-golang-org-protobuf" ,go-google-golang-org-protobuf)
+                        ("go-google-golang-org-genproto-googleapis-rpc" ,go-google-golang-org-genproto-googleapis-rpc)
+                        ("go-golang-org-x-sys" ,go-golang-org-x-sys)
+                        ("go-golang-org-x-sync" ,go-golang-org-x-sync)
+                        ("go-golang-org-x-oauth2" ,go-golang-org-x-oauth2)
+                        ("go-golang-org-x-net" ,go-golang-org-x-net)
+                        ("go-github-com-google-uuid" ,go-github-com-google-uuid)
+                        ("go-github-com-google-go-cmp" ,go-github-com-google-go-cmp)
+                        ("go-github-com-golang-protobuf" ,go-github-com-golang-protobuf)
+                        ("go-github-com-golang-glog" ,go-github-com-golang-glog)
+                        ("go-github-com-envoyproxy-go-control-plane" ,go-github-com-envoyproxy-go-control-plane)
+                        ("go-github-com-cncf-xds-go" ,go-github-com-cncf-xds-go)
+                        ("go-github-com-cncf-udpa-go" ,go-github-com-cncf-udpa-go)
+                        ("go-github-com-cespare-xxhash-v2" ,go-github-com-cespare-xxhash-v2)))
+   (home-page "https://google.golang.org/grpc")
+   (synopsis "gRPC-Go")
+   (description "Package grpc implements an RPC system called @code{gRPC}.")
+   (license asl2.0)))
 (define-public go-google-golang-org-genproto-googleapis-api
   (package
    (name "go-google-golang-org-genproto-googleapis-api")
@@ -477,66 +538,6 @@ go-github-com-cespare-xxhash-v2
     "This repository contains a Go-based implementation of an API server that
   implements the discovery service APIs defined in
   @@url{https://github.com/envoyproxy/data-plane-api,data-plane-api}.")
-   (license asl2.0)))
-(define-public go-github-com-golang-glog
-  (package
-   (name "go-github-com-golang-glog")
-   (version "1.2.0")
-   (source
-    (origin
-     (method git-fetch)
-     (uri (git-reference
-           (url "https://github.com/golang/glog")
-           (commit (string-append "v" version))))
-     (file-name (git-file-name name version))
-     (sha256
-      (base32 "045k834g6br296wzaglh7z2wlgd61mvz1w74naip8v0nbd9a89bq"))))
-   (build-system go-build-system)
-   (arguments
-    (list
-     #:go 1.19
-     #:import-path "github.com/golang/glog"))
-   (home-page "https://github.com/golang/glog")
-   (synopsis "glog")
-   (description
-    "Package glog implements logging analogous to the Google-internal C++
-  INFO/ERROR/V setup.  It provides functions that have a name matched by regex:")
-   (license asl2.0)))
-(define-public go-google-golang-org-grpc
-  (package
-   (name "go-google-golang-org-grpc")
-   (version "1.62.1")
-   (source
-    (origin
-     (method git-fetch)
-     (uri (git-reference
-           (url "https://github.com/grpc/grpc-go")
-           (commit (string-append "v" version))))
-     (file-name (git-file-name name version))
-     (sha256
-      (base32 "0sa9jx4pjzd0gdix8lzalxq0ry32lkr4mkswx7rxcrawpy0yjy3x"))))
-   (build-system go-build-system)
-   (arguments
-    (list
-     #:go 1.19
-     #:import-path "google.golang.org/grpc"))
-   (propagated-inputs `(("go-google-golang-org-protobuf" ,go-google-golang-org-protobuf)
-                        ("go-google-golang-org-genproto-googleapis-rpc" ,go-google-golang-org-genproto-googleapis-rpc)
-                        ("go-golang-org-x-sys" ,go-golang-org-x-sys)
-                        ("go-golang-org-x-sync" ,go-golang-org-x-sync)
-                        ("go-golang-org-x-oauth2" ,go-golang-org-x-oauth2)
-                        ("go-golang-org-x-net" ,go-golang-org-x-net)
-                        ("go-github-com-google-uuid" ,go-github-com-google-uuid)
-                        ("go-github-com-google-go-cmp" ,go-github-com-google-go-cmp)
-                        ("go-github-com-golang-protobuf" ,go-github-com-golang-protobuf)
-                        ("go-github-com-golang-glog" ,go-github-com-golang-glog)
-                        ("go-github-com-envoyproxy-go-control-plane" ,go-github-com-envoyproxy-go-control-plane)
-                        ("go-github-com-cncf-xds-go" ,go-github-com-cncf-xds-go)
-                        ("go-github-com-cncf-udpa-go" ,go-github-com-cncf-udpa-go)
-                        ("go-github-com-cespare-xxhash-v2" ,go-github-com-cespare-xxhash-v2)))
-   (home-page "https://google.golang.org/grpc")
-   (synopsis "gRPC-Go")
-   (description "Package grpc implements an RPC system called @code{gRPC}.")
    (license asl2.0)))
 (define-public go-github-com-apache-arrow-go-arrow
   (package
