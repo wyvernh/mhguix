@@ -1230,5 +1230,3 @@ go-github-com-cespare-xxhash-v2
    (synopsis "Ollama")
    (description "Get up and running with large language models locally.")
    (license expat)))
-
-ollama-wyvernh

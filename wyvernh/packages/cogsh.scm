@@ -29,3 +29,5 @@
     "Cogsh is a shell based on the Cognition programming language. It requires the env and process fllibs. It does not yet support Bash syntax.")
    (home-page "https://github.com/metacrank/cognition-rust")
    (license expat)))
+
+cogsh
