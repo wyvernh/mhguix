@@ -11,4 +11,5 @@
         texlive-anyfontsize
         texlive-diagbox
         texlive-pict2e
-        texlive-pgf))
+        texlive-pgf
+        texlive-darkmode))
