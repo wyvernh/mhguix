@@ -1,15 +1,3 @@
-;('(default
-;   packages-from
-;   wyvernh
-;   latex
-;   core
-;   emacs
-;   engineering)
-; '(sway
-;   wpa_supplicant))
-
-
-
 (define-module (wyvernh home configs baywyvernh)
   #:use-module (gnu home)
   #:use-module (gnu services)
@@ -26,6 +14,18 @@
   #:use-module (wyvernh home sway)
   #:use-module (wyvernh home waybar)
   #:export (baywyvernh-home-environment))
+
+;('(default
+;   packages-from
+;   wyvernh
+;   latex
+;   core
+;   emacs
+;   engineering)
+; '(sway
+;   wpa_supplicant))
+
+
 
 ;(home-environment-from
 ; ,(%wyvernh-packages
