@@ -31,9 +31,9 @@
         font-gnu-freefont
         fontconfig
         gimp
-        krita
-        inkscape
-        blender
+        ;krita
+        ;inkscape
+        ;blender
         nsxiv
         qemu
         android-file-transfer
