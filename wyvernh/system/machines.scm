@@ -105,7 +105,7 @@
              (using-pam? #t)
              (using-setuid? #f)))
    (udev-rules-service 'pipewire-add-udev-rules pipewire)
-   (service nvidia-service-type)
+ ;  (service nvidia-service-type)
  ;  (simple-service
  ;   'custom-udev-rules udev-service-type
  ;   (list nvidia-driver))
