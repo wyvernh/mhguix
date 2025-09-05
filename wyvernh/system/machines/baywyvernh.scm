@@ -23,36 +23,14 @@
     (device (file-system-label "EFI SYSTEM"))
     (type "vfat")))
 
-(define fs-gnu
+(define fs-home
   (file-system
-    (mount-point "/gnu")
-    (device (file-system-label "GNU"))
+    (mount-point "/home")
+    (device (file-system-label "HOME"))
     (type "btrfs")))
 
 (define %baywyvernh-swap-devices
   (list (swap-space (target (file-system-label "Swap")))))
-
-;(define fs-swap
-;  (file-system
-;   (mount-point "/swap")
-;   (type "btrfs")
-;   (device (file-system-label "nvme-root"))
-;   (options "subvol=@swap")
-;   (needed-for-boot? #t)))
-
-;(define fs-home
-;  (file-system
-;   (mount-point "/home")
-;   (type "btrfs")
-;   (device (file-system-label "nvme-root"))
-;   (options (plt-btrfs-mount-options "@home"))))
-
-;(define fs-snapshots
-;  (file-system
-;   (mount-point "/.snapshots")
-;   (type "btrfs")
-;   (device (file-system-label "nvme-root"))
-;   (options (plt-btrfs-mount-options "@snapshots"))))
 
 (define wyvernh-system-bawyvernh
   (operating-system
@@ -62,7 +40,7 @@
      (append
       (list fs-root
             fs-efi
-            fs-gnu)
+            fs-home)
       %base-file-systems))
     (swap-devices %baywyvernh-swap-devices)
     (services

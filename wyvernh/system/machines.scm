@@ -76,9 +76,6 @@
             (openpgp-fingerprint
              "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
          (channel
-          (name 'ollama-guix)
-          (url "https://codeberg.org/tusharhero/ollama-guix"))
-         (channel
           (name 'guix-science-nonfree)
           (url "https://codeberg.org/guix-science/guix-science-nonfree.git")
           (introduction
@@ -121,7 +118,7 @@
                     (delete gdm-service-type)
                     (mingetty-service-type config =>
                                            (auto-login-to-tty
-                                            config "tty2" "matthew"))
+                                            config "tty1" "matthew"))
                     (guix-service-type
                      config => (guix-configuration
                                 (inherit config)
