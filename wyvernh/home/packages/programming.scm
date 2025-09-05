@@ -24,6 +24,7 @@
         pkg-config
         m4
         rust
-        rust-cargo
-        (make-arm-none-eabi-toolchain-12.3.rel1)))
+        ;rust-cargo
+        ;(make-arm-none-eabi-toolchain-12.3.rel1)
+	))
 ;;))

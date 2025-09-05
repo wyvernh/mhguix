@@ -23,7 +23,7 @@
 
         emacs-auctex
         emacs-latex-preview-pane
-        emacs-latex-extra
+        ;emacs-latex-extra
         emacs-cdlatex
 
         emacs-lsp-mode
@@ -37,9 +37,9 @@
         emacs-cc-mode
         emacs-clang-format
         emacs-rustic
-        emacs-ligature
+        ;emacs-ligature
         emacs-doom-modeline
-        emacs-ligature
+        ;emacs-ligature
         emacs-doom-modeline
 
         emacs-solaire-mode

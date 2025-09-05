@@ -1,7 +1,7 @@
 (define-module (wyvernh home configs baywyvernh)
   #:use-module (gnu home)
   #:use-module (gnu services)
-  #:use-module (wyvernh home packages latex)
+;  #:use-module (wyvernh home packages latex)
   #:use-module (wyvernh home packages emacs)
   #:use-module (wyvernh home packages engineering)
   #:use-module (wyvernh home packages programming)
@@ -34,7 +34,7 @@
 
 (define %baywyvernh-packages
   (append %wyvernh-packages
-          %wyvernh-latex-packages
+          ;%wyvernh-latex-packages
           ;%wyvernh-nvidia-packages
           %wyvernh-core-packages
           %wyvernh-emacs-packages
