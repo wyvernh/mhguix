@@ -9,7 +9,7 @@
   #:use-module (wyvernh home packages misc)
   #:use-module (wyvernh home packages core)
   #:use-module (wyvernh home packages nvidia)
-  #:use-module (wyvernh home packages wyvernh)
+;  #:use-module (wyvernh home packages wyvernh)
   #:use-module (wyvernh home services)
   #:use-module (wyvernh home sway)
   #:use-module (wyvernh home waybar)
@@ -33,7 +33,7 @@
 ; ,())
 
 (define %baywyvernh-packages
-  (append %wyvernh-packages
+  (append ;%wyvernh-packages
           ;%wyvernh-latex-packages
           ;%wyvernh-nvidia-packages
           %wyvernh-core-packages
