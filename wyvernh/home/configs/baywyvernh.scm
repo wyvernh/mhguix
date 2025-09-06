@@ -37,11 +37,12 @@
           ;%wyvernh-latex-packages
           ;%wyvernh-nvidia-packages
           %wyvernh-core-packages
-          %wyvernh-emacs-packages
-          %wyvernh-engineering-packages
-          %wyvernh-programming-packages
+          ;%wyvernh-emacs-packages
+          ;%wyvernh-engineering-packages
+          ;%wyvernh-programming-packages
           %wyvernh-desktop-packages
-          %wyvernh-misc-packages))
+	  ;%wyvernh-misc-packages
+	  ))
 
 (define baywyvernh-home-environment
   (home-environment
