@@ -41,8 +41,8 @@
           ;%wyvernh-engineering-packages
           ;%wyvernh-programming-packages
           %wyvernh-desktop-packages
-	  ;%wyvernh-misc-packages
-	  ))
+    ;%wyvernh-misc-packages
+    ))
 
 (define baywyvernh-home-environment
   (home-environment
