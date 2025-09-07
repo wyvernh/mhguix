@@ -3,17 +3,21 @@
   #:use-module (gnu packages emacs)
   #:use-module (gnu packages haskell-apps)
   #:use-module (gnu packages version-control)
-  #:export (system-packages))
+  #:export (packages-from))
 
-(define %system-packages-base
-  (cons* ;bluez
-         ;bluez-alsa
-         ;brightnessctl
-         emacs-no-x-toolkit
-         git
-         kmonad
-         ;ntfs-3g
-         ;stow
-         %base-packages))
+(define core
+  (list emacs-no-x-toolkit
+        git))
 
-(lambda system-packages)
+(define extras
+  (list bluez
+        bluez-alsa
+        brightnessctl
+        kmonad
+        ntfs-3g
+        stow))
+
+(define current-env (interaction-environment))
+
+(define (groups-from lst)
+  (append (eval-reduce lst current-env) %base-packages))

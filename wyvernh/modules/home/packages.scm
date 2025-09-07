@@ -11,15 +11,19 @@
 
   ;; for desktop packages
   #:use-module (gnu packages android)
+  #:use-module (gnu packages bash)
   #:use-module (gnu packages cups)
   #:use-module (gnu packages fonts)
   #:use-module (gnu packages fontutils)
+  #:use-module (gnu packages freedesktop)
   #:use-module (gnu packages gimp)
   #:use-module (gnu packages graphics)
   #:use-module (gnu packages gtk)
+  #:use-module (gnu packages hardware)
   #:use-module (gnu packages libreoffice)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages kde)
+  #:use-module (gnu packages image)
   #:use-module (gnu packages image-viewers)
   #:use-module (gnu packages inkscape)
   #:use-module (gnu packages music)
@@ -28,6 +32,9 @@
   #:use-module (gnu packages terminals)
   #:use-module (gnu packages virtualization)
   #:use-module (gnu packages web)
+  #:use-module (gnu packages wm)
+  #:use-module (gnu packages xdisorg)
+  #:use-module (gnu packages xorg)
   #:use-module (nongnu packages mozilla)
 
   ;; for emacs packages
@@ -107,7 +114,20 @@
         gtk+
         gtkdatabox
         qt5compat
-        alsa-utils))
+        alsa-utilssway
+        swayidle
+        swaylock
+        fuzzel
+        grim
+        xdg-desktop-portal
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+        wtype
+        font-hack
+        playerctl
+        waybar
+        waybar-cpu-histogram
+        xorg-server-xwayland))
 
 (define emacs
   (list emacs-next-pgtk

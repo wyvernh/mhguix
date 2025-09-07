@@ -1,5 +1,10 @@
-(define-module (wyvernh modules tools)
-  #:export (eval-reduce))
+(define-module (wyvernh modules tools))
 
-(define (eval-reduce elist environment)
-  (reduce append '() (map (lambda (datum) (eval datum environment)) elist)))
+(define-public (eval-map lst environment)
+  (map (lambda (datum) (eval datum environment)) lst))
+
+(define-public (eval-reduce lst environment)
+  (fold append '() (eval-map lst)))
+
+(define-public (remove-false lst)
+  (remove (lambda (e) e) lst))

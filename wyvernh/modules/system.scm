@@ -8,41 +8,19 @@
   #:use-module (wyvernh modules system groups)
   #:use-module (wyvernh modules system packages)
   #:use-module (wyvernh modules system services)
-  #:use-module (wyvernh modules system disk)
   #:export (system disk system-config))
 
-;; I need these definitions:
-
-;; FILESYSTEMS
-;; filesystems-from
-;; swap-devices-from
-
-;; USERS:
-;; users-from
-
-;; GROUPS:
-;; groups-from
-
-;; PACKAGES:
-;; packages-from
-
-;; SERVICES:
-;; services-from
-
-;; DISK:
-;; disk-from
-
-(define default-hardware '(intel amd nvidia amdgpu))
+(define default-hardware '())
 (define default-firmware '(linux-firmware))
 (define default-filesystems
   '((fs-efi (size "500M") (type "vfat"))
     (fs-root (size "100G") (type "btrfs"))
     (fs-swap (size "18G"))
     (fs-home (size "*") (type "btrfs"))))
-(define default-users '((wyvernh-user "matthew" "Matthew Hinton")))
+(define default-users '((basic-user "matthew" "Matthew Hinton")))
 (define default-groups '(plugdev uinput))
-(define default-packages '(core))
-(define default-services '(kmonad desktop))
+(define default-packages '(core extras))
+(define default-services '('kmonad 'desktop 'autologin 'substitutes))
 
 (define system #f)
 (define disk #f)
@@ -70,7 +48,9 @@
       (kernel-loadable-modules
        (eval-reduce (append kernel-loadable-modules hardware) kernel-lm-env))
       (kernel-arguments
-       (eval-reduce (append kernel-arguments hardware) kernel-arg-env))
+       (append %default-kernel-arguments
+               (eval-reduce (append kernel-arguments hardware) kernel-arg-env)))
+      (initrd microcode-initrd)
       (firmware
        (eval-reduce (append firmware hardware) firmware-env))
       (host-name (get-hostname))
@@ -79,7 +59,7 @@
       (users (users-from users))
       (groups (groups-from groups users))
       (packages (packages-from packages))
-      (services (services-from services channels))))
+      (services (services-from services channels (map quote hardware)))))
    (set! system (apply operating-system (inherit my-system) os-config-list))
    (set! disk (disk-from filesystems))
    #f))

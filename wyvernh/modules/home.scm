@@ -4,8 +4,8 @@
   #:use-module (wyvernh modules home services)
   #:export (home home-config))
 
-(define default-packages '(core wyvernh latex emacs engineering))
-(define default-services '(sway))
+(define default-packages '(core desktop wyvernh latex emacs engineering programming))
+(define default-services '(desktop programming shepherd emacs))
 
 (define home #f)
 

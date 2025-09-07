@@ -1,24 +1,52 @@
 (define-module (wyvernh modules system filesystems)
-  #:export (system-filesystems))
+  #:export (filesystems-from swap-devices-from disk-from))
 
-;; fs-XXX will be different constructors for a filesystem object that will contain 'type' and 'size' and 'fs' which contains a usual guix filesystem object. Then the filesystems-from procedure will take a list of filesystem objects and return a list of guix file-systems.
+(define (no-fs size type label has-swap)
+  (list `(size ,size) `(type ,type) `(label ,label) `(swap ,has-swap)))
 
-(lambda size)
+(define (simple-fs mount-point size type label)
+  (cons
+   `(fs ,(file-system
+          (mount-point mount-point)
+          (type type)
+          (device (file-system-label label))))
+   (no-fs size type label #f)))
 
-(lambda filesystem-with-properties %MP %LABEL %TYPE
-  ;;return (file-system (mount-point %MP) (device (file-system-label %LABEL) %TYPE
-  )
+(define (fs-efi #:key (size "500M") (type "vfat") (label "EFI SYSTEM"))
+  (simple-fs "/efi" size type label))
 
-(lambda fs-efi)
+(define (fs-root #:key (size "100G") (type "ext4") (label "Guix"))
+  (simple-fs "/" size type label))
 
-(lambda fs-root)
+(define (fs-gnu #:key (size "100G") (type "ext4") (label "GNU"))
+  (simple-fs "/gnu" size type label))
 
-(lambda fs-gnu)
+(define (fs-swap #:key (size "18G") (type "swap") (label "Swap"))
+  (no-fs size type label #t))
 
-(lambda fs-swap)
+(define (fs-home #:key (size "*") (type "ext4") (label "HOME"))
+  (simple-fs "/home" size type label))
 
-(lambda fs-home)
+(define (fs-other #:key size label (type "ext4") (swap #f))
+  (no-fs size type label swap))
 
-(lambda fs-other)
+(define current-env (interaction-environment))
 
-(lambda system-filesystems)
+(define (disk-from lst)
+  (map-eval lst current-env))
+
+(define (gnu-fs-from alist)
+  (assoc-ref 'fs alist))
+
+(define (filesystems-from lst)
+  (append (remove-false (map gnu-fs-from (disk-from lst))) %base-file-systems))
+
+(define (gnu-sd-from alist)
+  (if (assoc-ref 'swap alist)
+      (swap-space
+       (target (file-system-label (assoc-ref 'label alist)))
+       (dependencies mapped-devices))
+      #f))
+
+(define (swap-devices-from lst)
+  (remove-false (map gnu-sd-from (disk-from lst))))
