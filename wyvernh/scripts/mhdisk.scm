@@ -1,10 +1,6 @@
-#!/usr/bin/env -S guix shell guile -- guile -e '(@ (wyvernh scripts mhdisk) main)' -s
-!#
-
-; Usage: sudo mhdisk /path/to/system/hostname.scm
-
 (define-module (wyvernh scripts mhdisk)
   #:use-module (guile-user)
+  #:declarative? #f
   #:export (main))
 
 (define (partition-filename drive n)
@@ -94,7 +90,7 @@
 
 (define (run-mhdisk file-path)
   (load file-path)
-  (if (not (bound-variable? 'disk))
+  (if (not (defined? 'disk))
       (begin
         (display "Error: The file does not define a 'disk' variable\n")
         (exit 1))
@@ -119,4 +115,5 @@
       (run-mhdisk (car (cdr args)))
       (begin
         (display "Usage: mhdisk FILE_PATH\n")
+        (display "FILE_PATH must be a full file path to a scheme file that exports a variable 'disk\n")
         (exit 1))))
