@@ -37,7 +37,7 @@
 
 (define default-operating-system
   (operating-system
-   (host-name (get-hostname))
+   (host-name "wyvernh")
    (kernel linux)
    (keyboard-layout (keyboard-layout "us"))
    (bootloader (bootloader-configuration
@@ -71,11 +71,11 @@
     (packages default-packages)
     (services default-services))
 
-   (display (services-from services channels hardware))
    (set!
     system
     (operating-system
      (inherit default-operating-system)
+     (host-name (get-hostname))
      (timezone timezone)
      (locale locale)
      (kernel (eval kernel current-env))

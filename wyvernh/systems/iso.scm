@@ -13,4 +13,4 @@
  #:groups '()
  #:channels '(guix-science-nonfree)
  #:packages '(core)
- #:services '((autologin "iso") 'base 'substitutes))
+ #:services '((autologin "iso") (substitutes)))
