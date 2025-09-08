@@ -5,7 +5,7 @@
 (define-public %wyvernh-base-channels
   (cons* (channel
           (name 'mhguix)
-          (url "https://github.com/WyvernH/mhguix"))
+          (url "https://github.com/wyvernh/mhguix"))
          (channel
           (name 'nonguix)
           (url "https://gitlab.com/nonguix/nonguix")
@@ -24,7 +24,7 @@
     (make-channel-introduction
      "58661b110325fd5d9b40e6f0177cc486a615817e"
      (openpgp-fingerprint
-      "CA4F 8CF4 37D7 478F DA05  5FD4 4213 7701 1A37 8446"))))
+      "CA4F 8CF4 37D7 478F DA05  5FD4 4213 7701 1A37 8446")))))
 
 (define guix-science-nonfree
   (list %guix-science-nonfree-channel))

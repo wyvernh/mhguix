@@ -10,11 +10,11 @@
       (string-append drive (number->string n))))
 
 (define (print-partition partition)
-  (display (assoc-ref 'type partition))
+  (display (assoc-ref partition 'type))
   (display "   ")
-  (display (assoc-ref 'size partition))
+  (display (assoc-ref partition 'size))
   (display "   ")
-  (display (assoc-ref 'label partition))
+  (display (assoc-ref partition 'label))
   (newline))
 
 (define (print-disk-from drive partitions n)
@@ -30,35 +30,39 @@
   (print-disk-from drive layout 1))
 
 (define (partition-type type)
-  (assoc-ref type
-             '(("vfat" . "ef00")
+  (assoc-ref '(("vfat" . "ef00")
                ("ext4" . "8300")
                ("btrfs" . "8300")
-               ("linux-swap" . "8200"))))
+               ("linux-swap" . "8200"))
+             type))
 
 (define (mkfs type)
-  (assoc-ref type
-             '(("vfat" . "mkfs.vfat")
+  (assoc-ref '(("vfat" . "mkfs.vfat")
                ("ext4" . "mkfs.ext4")
                ("btrfs" . "mkfs.btrfs")
-               ("linux-swap" . "mkswap"))))
+               ("linux-swap" . "mkswap"))
+             type))
 
 (define (wipe-disk drive)
   (system* "sgdisk" "-Z" drive)
   (system* "sgdisk" "-g" drive))
 
 (define (sgdisk-n-string partition n)
-  (string-append (number->string n) ":0:+" (assoc-ref 'size partition)))
+  (let size (assoc-ref partition 'size)
+    (if (eq? size "*")
+        (string-append (number->string n) ":0:0")
+        (string-append (number->string n) ":0:+" size))))
 
-(define (sgdisk-n-string partition n)
-  (string-append (number->string n) ":" (partition-type (assoc-ref 'type partition))))
+(define (sgdisk-t-string partition n)
+  (let type (assoc-ref partition 'type)
+    (string-append (number->string n) ":" (partition-type type)))
 
 (define (add-partition drive partition n)
   (if zero? (system* "sgdisk"
                      "-n" (sgdisk-n-string partition n)
                      "-t" (sgdisk-t-string partition n)
                      drive)
-      (if zero? (system* (mkfs (assoc-ref 'type partition))
+      (if zero? (system* (mkfs (assoc-ref partition 'type))
                          (partition-filename drive n))
           0
           2)
@@ -83,8 +87,11 @@
   (print-disk drive layout)
   (define code (partition-disk drive layout))
   (if (zero? code)
-      (display "Successfully partitioned disk\n")
-      (if (= 1 code)
-          (display "sgdisk error")
-          (display "filesystem error")))
-  (newline))
+      (begin
+        (display "Successfully partitioned disk\n")
+        EXIT_SUCCESS)
+      (begin
+        (if (= 1 code)
+            (display "sgdisk error\n")
+            (display "filesystem error\n"))
+        EXIT_FAILURE)))

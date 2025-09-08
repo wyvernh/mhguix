@@ -1,20 +1,31 @@
 (define-module (wyvernh modules system services)
   #:use-module (wyvernh modules tools)
   #:use-module (wyvernh modules system channels)
+  #:use-module (wyvernh services kmonad)
+  #:use-module (gnu)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages wm)
+  #:use-module (gnu services)
+  #:use-module (gnu services desktop)
+  #:use-module (gnu services linux)
+  #:use-module (gnu services xorg)
+  #:use-module (nongnu packages nvidia)
+  #:use-module (nongnu services nvidia)
+  #:use-module (srfi srfi-1)
   #:export (services-from))
 
 (define* (kmonad #:optional (path "/home/matthew/.config/kmonad/config.kbd"))
-  (lambda (lst)
-    (cons
-     (kmonad-service path)
-     (modify-services
-      lst
-      (udev-service-type
-       config => (udev-configuration
-                  (inherit config)
-                  (rules (cons kmonad (udev-configuration-rules config)))))))))
+ (lambda (lst)
+   (cons
+    (kmonad-service path)
+    (modify-services
+     lst
+     (udev-service-type
+      config => (udev-configuration
+                 (inherit config)
+                 (rules (cons kmonad (udev-configuration-rules config)))))))))
 
-(define* (autologin #:optional (name "matthew") (tty "tty1"))
+(define* (autologin #:key (name "matthew") (tty "tty1"))
   (lambda (lst)
     (modify-services
      lst
@@ -30,21 +41,21 @@
    screen-locker-service-type
    (screen-locker-configuration
     (name "swaylock")
-    (program (file-append swaylock "/bin/swaylock"))
+    (program swaylock)
     (using-pam? #t)
     (using-setuid? #f))))
 
-(define* (desktop #:optional (swaylock #t))
+(define* (desktop #:key (swaylock #t))
   (lambda (lst)
-    (let newlst
-        (cons*
-         (udev-rules-service 'pipewire-add-udev-rules pipewire)
-         (append (modify-services %desktop-services (delete gdm-service-type)) lst))
-      (if swaylock (cons %swaylock-service newlst) newlst))))
-
-(define (base)
-  (lambda (lst)
-    (append %base-services lst)))
+    (let ((newlst
+           (cons*
+            (udev-rules-service 'pipewire-add-udev-rules pipewire)
+            (append (modify-services %desktop-services
+                                     (delete gdm-service-type))
+                    lst))))
+      (if swaylock
+          (cons %swaylock-service newlst)
+          (modify-services newlst (delete screen-locker-service-type))))))
 
 (define (substitutes)
   (lambda (lst)
@@ -102,8 +113,11 @@
 (define (get-lambdas sources)
   (eval-map sources current-env))
 
+(define (apply-here proc arg)
+  (eval (list proc arg) current-env))
+
 (define (apply-lambdas sources lst)
-  (fold lst apply (get-lambdas sources)))
+  (fold (lambda (proc l) (apply proc (list l))) lst (get-lambdas sources)))
 
 (define (channel-list channels)
   (append (eval-reduce channels current-env) %wyvernh-base-channels))
@@ -111,4 +125,4 @@
 (define (services-from svcs channels hardware)
   (add-channels
    (channel-list channels)
-   (apply-lambdas hardware (apply-lambdas svcs '()))))
+   (apply-lambdas hardware (apply-lambdas svcs %base-services))))

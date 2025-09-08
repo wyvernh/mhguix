@@ -8,7 +8,7 @@
  #:services '())
 
 (system-config
- #:filesystems '((fs-efi (size "100M")) (fs-root (size "1G")))
+ #:filesystems '((fs-efi #:size "100M") (fs-root #:size "1G"))
  #:users '((basic-user "iso"))
  #:groups '()
  #:channels '(guix-science-nonfree)
