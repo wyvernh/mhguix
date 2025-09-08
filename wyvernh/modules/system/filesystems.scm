@@ -21,7 +21,7 @@
 (define (fs-gnu #:key (size "100G") (type "ext4") (label "GNU"))
   (simple-fs "/gnu" size type label))
 
-(define (fs-swap #:key (size "18G") (type "swap") (label "Swap"))
+(define (fs-swap #:key (size "18G") (type "linux-swap") (label "Swap"))
   (no-fs size type label #t))
 
 (define (fs-home #:key (size "*") (type "ext4") (label "HOME"))

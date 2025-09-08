@@ -12,6 +12,7 @@
 
 (define default-hardware '())
 (define default-firmware '(linux-firmware))
+(define default-drive "/dev/nvme0n1")
 (define default-filesystems
   '((fs-efi (size "500M") (type "vfat"))
     (fs-root (size "100G") (type "btrfs"))
@@ -35,6 +36,7 @@
     (kernel-arguments '())
     (hardware default-hardware)
     (firmware default-firmware)
+    (drive default-drive)
     (filesystems default-filesystems)
     (users default-users)
     (groups default-groups)
@@ -61,7 +63,7 @@
       (packages (packages-from packages))
       (services (services-from services channels (map quote hardware)))))
    (set! system (apply operating-system (inherit my-system) os-config-list))
-   (set! disk (disk-from filesystems))
+   (set! disk (list drive (disk-from filesystems)))
    #f))
 
 (system-config)
