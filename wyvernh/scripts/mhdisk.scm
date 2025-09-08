@@ -1,9 +1,11 @@
-#!/usr/bin/env -S guix shell guile -- guile -e main -s
+#!/usr/bin/env -S guix shell guile -- guile -e '(@ (wyvernh scripts mhdisk) main)' -s
 !#
 
 ; Usage: sudo mhdisk /path/to/system/hostname.scm
 
-(use-modules (guile-user))
+(define-module (wyvernh scripts mhdisk)
+  #:use-module (guile-user)
+  #:export (main))
 
 (define (partition-filename drive n)
   (if (string-contains-ci drive "nvme")
@@ -112,35 +114,9 @@
                     (display "filesystem error\n"))
                 (exit 1)))))))
 
-
 (define (main args)
   (if (= (length args) 2)
       (run-mhdisk (car (cdr args)))
       (begin
         (display "Usage: mhdisk FILE_PATH\n")
         (exit 1))))
-
-;; (define (run-mhdisk mod-name)
-;;   (define mod (read (open-input-string mod-name)))
-;;   (define disk (module-public mod 'disk))
-;;   (define drive (car disk))
-;;   (define layout (car (cdr disk)))
-;;   (display "Partitioning according to disk layout:\n")
-;;   (print-disk drive layout)
-;;   (define code (partition-disk drive layout))
-;;   (if (zero? code)
-;;       (begin
-;;         (display "Successfully partitioned disk\n")
-;;         EXIT_SUCCESS)
-;;       (begin
-;;         (if (= 1 code)
-;;             (display "sgdisk error\n")
-;;             (display "filesystem error\n"))
-;;         EXIT_FAILURE)))
-
-;; (define (main args)
-;;   (if (null? (cdr args))
-;;       (begin
-;;         (display "Error: mhdisk: Please provide an argument (the name of a module that exports disk)\n")
-;;         EXIT_FAILURE)
-;;       (run-mhdisk (car (cdr args)))))
