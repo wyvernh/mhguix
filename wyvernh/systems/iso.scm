@@ -1,4 +1,4 @@
-(define-module (wyvernh system iso)
+(define-module (wyvernh systems iso)
   #:use-module (wyvernh modules home)
   #:use-module (wyvernh modules system)
   #:export (home system disk))

@@ -114,7 +114,8 @@
         gtk+
         gtkdatabox
         qt5compat
-        alsa-utilssway
+        alsa-utils
+        sway
         swayidle
         swaylock
         fuzzel

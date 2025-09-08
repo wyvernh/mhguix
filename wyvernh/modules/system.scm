@@ -13,7 +13,7 @@
   #:use-module (gnu system linux-initrd)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
-  #:export (system disk system-config))
+  #:export (os disk system-config))
 
 (define default-timezone "America/Vancouver")
 (define default-locale "en_CA.utf8")
@@ -47,11 +47,13 @@
    (file-systems %base-file-systems)
    (name-service-switch %mdns-host-lookup-nss)))
 
-(define system #f)
+(define os #f)
 (define disk #f)
 
 (define current-env (interaction-environment))
 
+;; returns os so that if one wants, one can call 'guix system reconfigure' directly
+;; on the config file (assuming the config file ends with a call to system-config
 (define system-config
   (lambda*
    (#:key
@@ -72,7 +74,7 @@
     (services default-services))
 
    (set!
-    system
+    os
     (operating-system
      (inherit default-operating-system)
      (host-name (get-hostname))
@@ -96,6 +98,6 @@
 
    (set! disk (list drive (disk-from filesystems)))
 
-   #f))
+   os))
 
 (system-config)

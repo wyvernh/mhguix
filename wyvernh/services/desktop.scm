@@ -1,4 +1,5 @@
 (define-module (wyvernh services desktop)
+  #:use-module (gnu home services)
   #:use-module (gnu services)
   #:use-module (gnu services configuration)
   #:use-module (guix gexp))
@@ -21,11 +22,11 @@
 (define (wyvernh-sway-environment _)
   '(("XDG_CURRENT_DESKTOP" . "sway")))
 
-(define wyvernh-sway-service-type
+(define-public wyvernh-sway-service-type
   (service-type
    (name 'wyvernh-sway-service)
    (extensions
     (list (service-extension home-environment-variables-service-type
                              wyvernh-sway-environment)))
-   (default-value (wyvernh-sway-configuration))
+   (default-value #f)
    (description "Configure sway.")))

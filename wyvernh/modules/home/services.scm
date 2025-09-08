@@ -2,7 +2,9 @@
   #:use-module (wyvernh services desktop)
   #:use-module (wyvernh services emacs)
   #:use-module (gnu home services)
+  #:use-module (gnu home services desktop)
   #:use-module (gnu home services shepherd)
+  #:use-module (gnu home services sound)
   #:export (services-environment))
 
 (define desktop
@@ -15,11 +17,11 @@
   (list (service home-emacs-server-service-type)))
 
 (define shepherd
-  (list (service home-shepherd-servicetype)))
+  (list (service home-shepherd-service-type)))
 
 (define programming
   (list (simple-service 'env-vars-service
                         home-environment-variables-service-type
-                        `(("PATH" . "$PATH:$HOME/.cargo/bin")))
+                        `(("PATH" . "$PATH:$HOME/.cargo/bin")))))
 
-(define services-enviroment (interaction-environment))
+(define services-environment (interaction-environment))

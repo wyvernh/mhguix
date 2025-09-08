@@ -1,17 +1,12 @@
-(define-module (wyvernh system baywyvernh)
+(define-module (wyvernh systems baywyvernh)
   #:use-module (wyvernh modules home)
   #:use-module (wyvernh modules system)
-  #:export (home system disk))
+  #:re-export (home os disk))
 
-;(define custom-pkgs (list))
+(home-config
+ #:packages '(core wyvernh latex emacs engineering)
+ #:services '())
 
-;; Defines variable 'home' (home configuration type)
-;(home-config
-; #:packages '(core wyvernh latex emacs engineering custom-pkgs)
-; #:services '(sway '()))
-
-
-;; Defines variables 'system' (operating system type) and 'disk' (data structure representing disk partition layout for external partitioning program)
 (system-config
  #:hardware '(nvidia)
  #:filesystems '((fs-efi #:size "500M" #:type "vfat")

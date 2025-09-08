@@ -2,6 +2,7 @@
   #:use-module (wyvernh modules tools)
   #:use-module (wyvernh modules home packages)
   #:use-module (wyvernh modules home services)
+  #:use-module (gnu home)
   #:export (home home-config))
 
 (define default-packages '(core desktop wyvernh latex emacs engineering programming))
