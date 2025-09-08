@@ -1,8 +1,9 @@
-#!/usr/bin/env -S guile \\
--L ./ -e main -s
+#!/usr/bin/env -S guix shell guile -- guile -e main -s
 !#
 
-# Usage: sudo mhdisk /path/to/system/hostname.scm
+; Usage: sudo mhdisk /path/to/system/hostname.scm
+
+(use-modules (guile-user))
 
 (define (partition-filename drive n)
   (if (string-contains-ci drive "nvme")
@@ -37,33 +38,43 @@
              type))
 
 (define (mkfs type)
-  (assoc-ref '(("vfat" . "mkfs.vfat")
-               ("ext4" . "mkfs.ext4")
-               ("btrfs" . "mkfs.btrfs")
-               ("linux-swap" . "mkswap"))
+  (assoc-ref '(;("vfat" . "mkfs.vfat")
+               ("vfat" . "echo")
+               ;("ext4" . "mkfs.ext4")
+               ("ext4" . "echo")
+               ;("btrfs" . "mkfs.btrfs")
+               ("btrfs" . "echo")
+               ;("linux-swap" . "mkswap")
+               ("linux-swap" . "echo"))
              type))
-
+;;testing, replace echo with sgdisk
 (define (wipe-disk drive)
-  (system* "sgdisk" "-Z" drive)
-  (system* "sgdisk" "-g" drive))
+  (system* "echo" "-Z" drive)
+  (system* "echo" "-g" drive))
 
 (define (sgdisk-n-string partition n)
-  (let size (assoc-ref partition 'size)
+  (let ((size (assoc-ref partition 'size)))
     (if (eq? size "*")
         (string-append (number->string n) ":0:0")
         (string-append (number->string n) ":0:+" size))))
 
 (define (sgdisk-t-string partition n)
-  (let type (assoc-ref partition 'type)
-    (string-append (number->string n) ":" (partition-type type)))
+  (let ((type (assoc-ref partition 'type)))
+    (string-append (number->string n) ":" (partition-type type))))
+
+(define (mk-partition drive partition n)
+  (system* "echo"
+           "-n" (sgdisk-n-string partition n)
+           "-t" (sgdisk-t-string partition n)
+           drive))
+
+(define (mk-fs drive partition n)
+  (system* (mkfs (assoc-ref partition 'type))
+           (partition-filename drive n)))
 
 (define (add-partition drive partition n)
-  (if zero? (system* "sgdisk"
-                     "-n" (sgdisk-n-string partition n)
-                     "-t" (sgdisk-t-string partition n)
-                     drive)
-      (if zero? (system* (mkfs (assoc-ref partition 'type))
-                         (partition-filename drive n))
+  (if (zero? (mk-partition drive partition n))
+      (if (zero? (mk-fs drive partition n))
           0
           2)
       1))
@@ -71,7 +82,7 @@
 (define (partition-disk-from drive partitions n)
   (if (null? partitions)
       0
-      (let code (add-partition drive (car partitions) n)
+      (let ((code (add-partition drive (car partitions) n)))
         (if (zero? code)
             (partition-disk-from drive (cdr partitions) (+ n 1))
             code))))
@@ -79,19 +90,57 @@
 (define (partition-disk drive layout)
   (partition-disk-from drive layout 1))
 
+(define (run-mhdisk file-path)
+  (load file-path)
+  (if (not (bound-variable? 'disk))
+      (begin
+        (display "Error: The file does not define a 'disk' variable\n")
+        (exit 1))
+      (let* ((disk-variable (eval 'disk))
+             (drive (car disk-variable))
+             (layout (car (cdr disk-variable))))
+        (display "Partitioning according to disk layout:\n")
+        (print-disk drive layout)
+        (let ((code (partition-disk drive layout)))
+          (if (zero? code)
+              (begin
+                (display "Successfully partitioned disk\n")
+                (exit 0))
+              (begin
+                (if (= 1 code)
+                    (display "sgdisk error\n")
+                    (display "filesystem error\n"))
+                (exit 1)))))))
+
+
 (define (main args)
-  (load (car (cdr args)))
-  (define drive (car disk))
-  (define layout (car (cdr disk)))
-  (display "Partitioning according to disk layout:\n")
-  (print-disk drive layout)
-  (define code (partition-disk drive layout))
-  (if (zero? code)
+  (if (= (length args) 2)
+      (run-mhdisk (car (cdr args)))
       (begin
-        (display "Successfully partitioned disk\n")
-        EXIT_SUCCESS)
-      (begin
-        (if (= 1 code)
-            (display "sgdisk error\n")
-            (display "filesystem error\n"))
-        EXIT_FAILURE)))
+        (display "Usage: mhdisk FILE_PATH\n")
+        (exit 1))))
+
+;; (define (run-mhdisk mod-name)
+;;   (define mod (read (open-input-string mod-name)))
+;;   (define disk (module-public mod 'disk))
+;;   (define drive (car disk))
+;;   (define layout (car (cdr disk)))
+;;   (display "Partitioning according to disk layout:\n")
+;;   (print-disk drive layout)
+;;   (define code (partition-disk drive layout))
+;;   (if (zero? code)
+;;       (begin
+;;         (display "Successfully partitioned disk\n")
+;;         EXIT_SUCCESS)
+;;       (begin
+;;         (if (= 1 code)
+;;             (display "sgdisk error\n")
+;;             (display "filesystem error\n"))
+;;         EXIT_FAILURE)))
+
+;; (define (main args)
+;;   (if (null? (cdr args))
+;;       (begin
+;;         (display "Error: mhdisk: Please provide an argument (the name of a module that exports disk)\n")
+;;         EXIT_FAILURE)
+;;       (run-mhdisk (car (cdr args)))))
