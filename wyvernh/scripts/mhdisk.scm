@@ -110,10 +110,10 @@
                     (display "filesystem error\n"))
                 (exit 1)))))))
 
-(define (main args)
-  (if (= (length args) 2)
-      (run-mhdisk (car (cdr args)))
-      (begin
-        (display "Usage: mhdisk FILE_PATH\n")
-        (display "FILE_PATH must be a full file path to a scheme file that exports a variable 'disk\n")
-        (exit 1))))
+;(define (main args)
+;  (if (= (length args) 2)
+;      (run-mhdisk (car (cdr args)))
+;      (begin
+;        (display "Usage: mhdisk FILE_PATH\n")
+;        (display "FILE_PATH must be a full file path to a scheme file that exports a variable 'disk\n")
+;        (exit 1))))
