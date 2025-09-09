@@ -52,8 +52,8 @@
 
 (define current-env (interaction-environment))
 
-;; returns os so that if one wants, one can call 'guix system reconfigure' directly
-;; on the config file (assuming the config file ends with a call to system-config
+;; returns disk so that the mhdisk program can directly load
+;; a system config file ending with a call to system-config
 (define system-config
   (lambda*
    (#:key
@@ -98,6 +98,6 @@
 
    (set! disk (list drive (disk-from filesystems)))
 
-   os))
+   disk))
 
 (system-config)
