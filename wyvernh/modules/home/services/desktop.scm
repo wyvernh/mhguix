@@ -1,4 +1,4 @@
-(define-module (wyvernh services desktop)
+(define-module (wyvernh modules home services desktop)
   #:use-module (gnu home services)
   #:use-module (gnu services)
   #:use-module (gnu services configuration)

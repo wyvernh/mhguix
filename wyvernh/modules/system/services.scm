@@ -1,7 +1,7 @@
 (define-module (wyvernh modules system services)
   #:use-module (wyvernh modules tools)
   #:use-module (wyvernh modules system channels)
-  #:use-module (wyvernh services kmonad)
+  #:use-module (wyvernh modules system services kmonad)
   #:use-module (gnu)
   #:use-module (gnu packages linux)
   #:use-module (gnu packages wm)
@@ -14,7 +14,7 @@
   #:use-module (srfi srfi-1)
   #:export (services-from))
 
-(define* (kmonad #:optional (path "/home/matthew/.config/kmonad/config.kbd"))
+(define* (kmonad #:optional (path "/root/.config/kmonad/config.kbd"))
  (lambda (lst)
    (cons
     (kmonad-service path)

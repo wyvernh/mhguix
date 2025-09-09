@@ -1,4 +1,4 @@
-(define-module (wyvernh services emacs)
+(define-module (wyvernh modules home services emacs)
   #:use-module (gnu home services shepherd)
   #:use-module (gnu services)
   #:use-module (gnu services configuration)

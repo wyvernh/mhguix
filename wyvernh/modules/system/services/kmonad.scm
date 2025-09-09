@@ -1,4 +1,4 @@
-(define-module (wyvernh services kmonad)
+(define-module (wyvernh modules system services kmonad)
   #:use-module (gnu services)
   #:use-module (gnu services shepherd)
   #:use-module (gnu packages haskell-apps)

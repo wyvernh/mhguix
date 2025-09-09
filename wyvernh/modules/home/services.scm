@@ -1,6 +1,6 @@
 (define-module (wyvernh modules home services)
-  #:use-module (wyvernh services desktop)
-  #:use-module (wyvernh services emacs)
+  #:use-module (wyvernh modules home services desktop)
+  #:use-module (wyvernh modules home services emacs)
   #:use-module (gnu home services)
   #:use-module (gnu home services desktop)
   #:use-module (gnu home services shepherd)
