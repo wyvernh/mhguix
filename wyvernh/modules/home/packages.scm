@@ -93,21 +93,21 @@
         colordiff))
 
 (define desktop
-  (list musescore
+  (list ;musescore
         firefox
-        alacritty
-        pavucontrol
-        libreoffice
-        font-fira-code
-        font-liberation
-        font-gnu-freefont
-        fontconfig
-        gimp
+        ;alacritty
+        ;pavucontrol
+        ;libreoffice
+        ;font-fira-code
+        ;font-liberation
+        ;font-gnu-freefont
+        ;fontconfig
+        ;gimp
         ;krita
         ;inkscape
         ;blender
         nsxiv
-        qemu
+        ;qemu
         android-file-transfer
         cups
         gtk
@@ -128,7 +128,9 @@
         playerctl
         waybar
         waybar-cpu-histogram
-        xorg-server-xwayland))
+        xorg-server-xwayland
+
+        emacs-next-pgtk))
 
 (define emacs
   (list emacs-next-pgtk
