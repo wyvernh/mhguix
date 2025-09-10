@@ -37,7 +37,7 @@
 (define* (fs-home #:key (size 'guess) (type "ext4") (label "HOME"))
   (simple-fs "/home" size type label))
 
-(define* (fs-other #:key size (label "") (type "ext4") (swap #f))
+(define* (fs-other #:key size (label #f) (type "ext4") (swap #f))
   (no-fs size type label swap))
 
 (define current-env (interaction-environment))
