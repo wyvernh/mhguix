@@ -187,10 +187,7 @@
 (define current-env (interaction-environment))
 
 (define (get-lambdas sources)
-  (let ((l
-         (eval-map sources current-env)))
-    (display l)
-    l))
+  (eval-map sources current-env))
 
 (define (apply-here proc arg)
   (eval (list proc arg) current-env))
