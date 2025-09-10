@@ -28,10 +28,10 @@
 (define* (fs-root #:key (size (*100 GiB)) (type "ext4") (label "Guix"))
   (simple-fs "/" size type label))
 
-(define* (fs-gnu #:key (size (* 100 GiB) (type "ext4") (label "GNU"))
+(define* (fs-gnu #:key (size (* 100 GiB)) (type "ext4") (label "GNU"))
   (simple-fs "/gnu" size type label))
 
-(define* (fs-swap #:key (size (* 18 GiB) (type "linux-swap") (label "Swap"))
+(define* (fs-swap #:key (size (* 18 GiB)) (type "linux-swap") (label "Swap"))
   (no-fs size type label #t))
 
 (define* (fs-home #:key (size 'guess) (type "ext4") (label "HOME"))
@@ -68,4 +68,4 @@
                    (size (assoc-ref alist 'size))
                    (label (assoc-ref alist 'label))
                    (file-system (assoc-ref alist 'type))))
-       (fs-list-from)))
+       (fs-list-from lst)))
