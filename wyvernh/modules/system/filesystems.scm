@@ -73,8 +73,6 @@
       #f))
 
 (define (get-root-label lst)
-  (display lst)
-  (newline)
   (if (null? lst)
       #f
       (let ((label (rootlabel (assoc-ref (car lst) 'fs))))
