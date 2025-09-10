@@ -4,15 +4,18 @@
   #:export (filesystems-from swap-devices-from disk-from))
 
 (define (no-fs size type label has-swap)
-  `((size . ,size) (type . ,type) (label . ,label) (swap . ,has-swap)))
+  (list (cons 'size size)
+        (cons 'type type)
+        (cons 'label label)
+        (cons 'swap has-swap)))
 
 (define (simple-fs mount-point size type label)
-  (cons
-   `(fs ,(file-system
+  (acons 'fs
+         (file-system
           (mount-point mount-point)
           (type type)
-          (device (file-system-label label))))
-   (no-fs size type label #f)))
+          (device (file-system-label label)))
+         (no-fs size type label #f)))
 
 (define* (fs-efi #:key (size "500M") (type "vfat") (label "EFI SYSTEM"))
   (simple-fs "/efi" size type label))
