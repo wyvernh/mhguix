@@ -58,7 +58,11 @@
                           (mingetty-configuration
                            (inherit config)
                            (auto-login name))
-                          config)))))))
+                          config))
+           (console-font-service-type
+            config => (map (lambda (tty)
+                             (cons tty (file-append font-terminus "/share/consolefonts/ter-132n")))
+                           '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6"))))))))
 
 (define %swaylock-service
   (service
