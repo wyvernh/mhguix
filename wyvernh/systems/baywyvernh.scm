@@ -18,4 +18,4 @@
                  (fs-other #:size "32G" #:type "swap")
                  (fs-home #:size "600G" #:type "btrfs"))
  #:channels '(guix-science-nonfree)
- #:services '((kmonad) (desktop) (substitutes)))
+ #:services '(kmonad desktop substitutes))
