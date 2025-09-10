@@ -4,7 +4,7 @@
   #:use-module (gnu image)
   #:use-module (gnu system image)
   #:use-module (guix gexp)
-  #:export (os))
+  #:re-export (os))
 
 (system-config
  #:filesystems '((fs-efi #:size (* 40 MiB) #:label "ISO_EFI")
@@ -33,7 +33,6 @@
                          (string-append root "/data")
                        (lambda (port)
                          (format port "my-data"))))))
-
         (partition
          (inherit root-partition)
-         (label "ISO_Root"))))
+         (label "ISO_Root")))))
