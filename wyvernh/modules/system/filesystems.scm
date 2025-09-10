@@ -90,4 +90,4 @@
        (fs-list-from lst)))
 
 (define (disk-from lst drive)
-  (cons* drive (get-root-label (fs-list-from lst)) (disk-layout-from lst)))
+  (list drive (get-root-label (fs-list-from lst)) (disk-layout-from lst)))
