@@ -90,7 +90,7 @@
      (firmware
       (eval-reduce (append firmware hardware) firmware-env))
      (file-systems (filesystems-from filesystems))
-     (swap-devices (swap-devices-from filesystems mapped-devices))
+     (swap-devices (swap-devices-from filesystems '()))
      (users (users-from users))
      (groups (groups-from groups users))
      (packages (packages-from packages))
