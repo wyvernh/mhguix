@@ -96,7 +96,7 @@
      (packages (packages-from packages))
      (services (services-from services channels hardware (users-from users)))))
 
-   (set! disk (list drive (disk-from filesystems)))
+   (set! disk (disk-from filesystems drive))
 
    disk))
 

@@ -2,6 +2,7 @@
   #:use-module (wyvernh modules tools)
   #:use-module (gnu)
   #:use-module (gnu image)
+  #:use-module (gnu system file-systems)
   #:export (filesystems-from swap-devices-from disk-from))
 
 (define (no-fs size type label has-swap)
@@ -63,9 +64,30 @@
    (map (lambda (alist) (gnu-sd-from alist mapped-devices))
         (fs-list-from lst))))
 
-(define (disk-from lst)
+(define (rootlabel fs)
+  (display fs)
+  (if fs
+      (if (string=? "/" (file-system-mount-point fs))
+          (file-system-label->string (file-system-device fs))
+          #f)
+      #f))
+
+(define (get-root-label lst)
+  (display lst)
+  (newline)
+  (if (null? lst)
+      #f
+      (let ((label (rootlabel (assoc-ref (car lst) 'fs))))
+        (if label
+            label
+            (get-root-label (cdr lst))))))
+
+(define (disk-layout-from lst)
   (map (lambda (alist) (partition
                    (size (assoc-ref alist 'size))
                    (label (assoc-ref alist 'label))
                    (file-system (assoc-ref alist 'type))))
        (fs-list-from lst)))
+
+(define (disk-from lst drive)
+  (cons* drive (get-root-label (fs-list-from lst)) (disk-layout-from lst)))
