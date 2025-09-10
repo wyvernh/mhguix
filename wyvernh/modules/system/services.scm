@@ -34,8 +34,8 @@
   #:use-module (srfi srfi-1)
   #:export (services-from))
 
-(define* kmonad
- (lambda (lst users)
+(define kmonad
+ (lambda (lst)
    (cons
     (kmonad-service "/root/.config/kmonad/config.kbd")
     (modify-services
@@ -43,10 +43,11 @@
      (udev-service-type
       config => (udev-configuration
                  (inherit config)
-                 (rules (cons kmonad (udev-configuration-rules config)))))))))
+                 (rules (cons (@ (gnu packages haskell-apps) kmonad)
+                              (udev-configuration-rules config)))))))))
 
-(define* autologin
-  (lambda (lst users)
+(define autologin
+  (lambda (lst)
     (if (zero? (length users))
         lst
         (let ((name (user-account-name (car users))))
@@ -59,7 +60,7 @@
                            (auto-login name))
                           config)))))))
 
-(define* %swaylock-service
+(define %swaylock-service
   (service
    screen-locker-service-type
    (screen-locker-configuration
@@ -68,8 +69,8 @@
     (using-pam? #t)
     (using-setuid? #f))))
 
-(define* desktop
-  (lambda (lst users)
+(define desktop
+  (lambda (lst)
     (cons*
      %swaylock-service
      (udev-rules-service 'pipewire-add-udev-rules pipewire)
@@ -133,7 +134,7 @@
      lst)))
 
 (define substitutes
-  (lambda (lst users)
+  (lambda (lst)
     (modify-services
      lst
      (guix-service-type
@@ -186,13 +187,16 @@
 (define current-env (interaction-environment))
 
 (define (get-lambdas sources)
-  (eval-map sources current-env))
+  (let ((l
+         (eval-map sources current-env)))
+    (display l)
+    l))
 
 (define (apply-here proc arg)
   (eval (list proc arg) current-env))
 
 (define (apply-lambdas sources users lst)
-  (fold (lambda (proc l) (apply proc (list l users))) lst (get-lambdas sources)))
+  (fold (lambda (proc l) (apply proc (list l))) lst (get-lambdas sources)))
 
 (define (channel-list channels)
   (append (eval-reduce channels current-env) %wyvernh-base-channels))
