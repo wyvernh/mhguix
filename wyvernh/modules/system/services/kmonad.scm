@@ -6,7 +6,7 @@
   #:use-module (guix gexp)
   #:export (kmonad-service))
 
-(define kmonad-package-list
+(define (kmonad-package-list _)
   (list kmonad))
 ;;        kmonad-config))
 

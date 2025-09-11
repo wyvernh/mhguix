@@ -6,6 +6,7 @@
   #:use-module (gnu packages admin)
   #:use-module (gnu packages avahi)
   #:use-module (gnu packages cups)
+  #:use-module (gnu packages fonts)
   #:use-module (gnu packages freedesktop)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages gnome)
@@ -34,8 +35,17 @@
   #:use-module (srfi srfi-1)
   #:export (services-from))
 
+(define %wyvernh-base-services
+  (modify-services
+   %base-services
+   (console-font-service-type
+    config => (map (lambda (tty)
+                     (cons tty (file-append font-terminus
+                                            "/share/consolefonts/ter-132n")))
+                   '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6")))))
+
 (define kmonad
- (lambda (lst)
+ (lambda (lst _)
    (cons
     (kmonad-service "/root/.config/kmonad/config.kbd")
     (modify-services
@@ -47,7 +57,7 @@
                               (udev-configuration-rules config)))))))))
 
 (define autologin
-  (lambda (lst)
+  (lambda (lst users)
     (if (zero? (length users))
         lst
         (let ((name (user-account-name (car users))))
@@ -58,11 +68,7 @@
                           (mingetty-configuration
                            (inherit config)
                            (auto-login name))
-                          config))
-           (console-font-service-type
-            config => (map (lambda (tty)
-                             (cons tty (file-append font-terminus "/share/consolefonts/ter-132n")))
-                           '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6"))))))))
+                          config)))))))
 
 (define %swaylock-service
   (service
@@ -74,7 +80,7 @@
     (using-setuid? #f))))
 
 (define desktop
-  (lambda (lst)
+  (lambda (lst _)
     (cons*
      %swaylock-service
      (udev-rules-service 'pipewire-add-udev-rules pipewire)
@@ -138,7 +144,7 @@
      lst)))
 
 (define substitutes
-  (lambda (lst)
+  (lambda (lst _)
     (modify-services
      lst
      (guix-service-type
@@ -168,12 +174,12 @@
 
 ;; HARDWARE OPTIONS
 
-(define intel (lambda (lst) lst))
+(define intel (lambda (lst _) lst))
 
-(define amd (lambda (lst) lst))
+(define amd (lambda (lst _) lst))
 
 (define nvidia
-  (lambda (lst)
+  (lambda (lst _)
     (cons*
      (service nvidia-service-type)
      (simple-service
@@ -186,18 +192,15 @@
                 "nvidia_uvm"))
      lst)))
 
-(define amdgpu (lambda (lst) lst))
+(define amdgpu (lambda (lst _) lst))
 
 (define current-env (interaction-environment))
 
 (define (get-lambdas sources)
   (map (lambda (datum) (if (symbol? datum) (eval datum current-env) datum)) sources))
 
-(define (apply-here proc arg)
-  (eval (list proc arg) current-env))
-
 (define (apply-lambdas sources users lst)
-  (fold (lambda (proc l) (apply proc (list l))) lst (get-lambdas sources)))
+  (fold (lambda (proc l) (apply proc (list l users))) lst (get-lambdas sources)))
 
 (define (channel-list channels)
   (append (eval-reduce channels current-env) %wyvernh-base-channels))
@@ -206,4 +209,4 @@
   (add-channels
    (channel-list channels)
    (apply-lambdas hardware users
-                  (apply-lambdas svcs users %base-services))))
+                  (apply-lambdas svcs users %wyvernh-base-services))))
