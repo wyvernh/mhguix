@@ -203,11 +203,7 @@
   (append (eval-reduce channels current-env) %wyvernh-base-channels))
 
 (define (services-from svcs channels hardware users)
-  (let ((lst (add-channels
+  (add-channels
    (channel-list channels)
    (apply-lambdas hardware users
-                  (apply-lambdas svcs users %base-services)))))
-    (display lst)
-    (newline)
-    (display "hello!\n")
-    lst))
+                  (apply-lambdas svcs users %base-services))))
