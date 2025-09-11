@@ -191,7 +191,7 @@
 (define current-env (interaction-environment))
 
 (define (get-lambdas sources)
-  (eval-map sources current-env))
+  (map (lambda (datum) (if (symbol? datum) (eval source current-env) datum)) sources))
 
 (define (apply-here proc arg)
   (eval (list proc arg) current-env))
@@ -203,7 +203,11 @@
   (append (eval-reduce channels current-env) %wyvernh-base-channels))
 
 (define (services-from svcs channels hardware users)
-  (add-channels
+  (let ((lst (add-channels
    (channel-list channels)
    (apply-lambdas hardware users
-                  (apply-lambdas svcs users %base-services))))
+                  (apply-lambdas svcs users %base-services)))))
+    (display lst)
+    (newline)
+    (display "hello!\n")
+    lst))
