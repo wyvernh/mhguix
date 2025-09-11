@@ -7,4 +7,4 @@ The configuration for kmonad/kanata and emacs will be written in separate .kbd a
 
 The kmonad/kanata system services option will be modified to include the installation of kmonad/kanata along with its configuration in /root/.config/kmonad/config.kbd.
 
-The syntax of the system services options will be altered so that options do not have to be enclosed in s-expressions. This will be done via checking if the option is a symbol defined in the (wyvernh modules system services) environment, in which case it will be evaluated to acquire the lambda. Otherwise it will be assumed that the option is itself a lambda.
+The syntax of the system services options will be altered so that options do not have to be enclosed in s-expressions (done). This will be done via checking if the option is a symbol defined in the (wyvernh modules system services) environment, in which case it will be evaluated to acquire the lambda. Otherwise it will be assumed that the option is itself a lambda (not done).
