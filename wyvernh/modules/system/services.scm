@@ -191,7 +191,7 @@
 (define current-env (interaction-environment))
 
 (define (get-lambdas sources)
-  (map (lambda (datum) (if (symbol? datum) (eval source current-env) datum)) sources))
+  (map (lambda (datum) (if (symbol? datum) (eval datum current-env) datum)) sources))
 
 (define (apply-here proc arg)
   (eval (list proc arg) current-env))
