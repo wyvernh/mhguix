@@ -65,7 +65,6 @@
         (fs-list-from lst))))
 
 (define (rootlabel fs)
-  (display fs)
   (if fs
       (if (string=? "/" (file-system-mount-point fs))
           (file-system-label->string (file-system-device fs))
