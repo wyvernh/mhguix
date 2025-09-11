@@ -7,7 +7,7 @@
   #:re-export (os))
 
 (system-config
- #:filesystems '((fs-efi #:size (* 40 MiB) #:label "ISO_EFI")
+ #:filesystems '((fs-efi #:size (* 40 MiB) #:label "ISO_ESP")
                  (fs-root #:size 'guess #:label "ISO_Root" #:type "ext4"))
  #:users '((basic-user "iso"))
  #:groups '()
