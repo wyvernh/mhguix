@@ -1,83 +1,84 @@
 (define-module (wyvernh modules home packages)
-  ;; for core packages
-  #:use-module (gnu packages admin)
-  #:use-module (gnu packages compression)
-  #:use-module (gnu packages ssh)
-  #:use-module (gnu packages tls)
-  #:use-module (gnu packages networking)
-  #:use-module (gnu packages text-editors)
-  #:use-module (gnu packages linux)
-  #:use-module (gnu packages patchutils)
 
-  ;; for desktop packages
-  #:use-module (gnu packages android)
-  #:use-module (gnu packages bash)
-  #:use-module (gnu packages cups)
-  #:use-module (gnu packages fonts)
-  #:use-module (gnu packages fontutils)
-  #:use-module (gnu packages freedesktop)
-  #:use-module (gnu packages gimp)
-  #:use-module (gnu packages graphics)
-  #:use-module (gnu packages gtk)
-  #:use-module (gnu packages hardware)
-  #:use-module (gnu packages libreoffice)
-  #:use-module (gnu packages linux)
-  #:use-module (gnu packages kde)
-  #:use-module (gnu packages image)
-  #:use-module (gnu packages image-viewers)
-  #:use-module (gnu packages inkscape)
-  #:use-module (gnu packages music)
-  #:use-module (gnu packages pulseaudio)
-  #:use-module (gnu packages qt)
-  #:use-module (gnu packages terminals)
-  #:use-module (gnu packages virtualization)
-  #:use-module (gnu packages web)
-  #:use-module (gnu packages wm)
-  #:use-module (gnu packages xdisorg)
-  #:use-module (gnu packages xorg)
-  #:use-module (nongnu packages mozilla)
+;; for core packages
+#:use-module (gnu packages admin)
+#:use-module (gnu packages compression)
+#:use-module (gnu packages ssh)
+#:use-module (gnu packages tls)
+#:use-module (gnu packages networking)
+#:use-module (gnu packages text-editors)
+#:use-module (gnu packages linux)
+#:use-module (gnu packages patchutils)
 
-  ;; for emacs packages
-  #:use-module (gnu packages emacs)
-  #:use-module (gnu packages emacs-xyz)
-  #:use-module (gnu packages cmake)
-  #:use-module (gnu packages llvm)
+;; for desktop packages
+#:use-module (gnu packages android)
+#:use-module (gnu packages bash)
+#:use-module (gnu packages cups)
+#:use-module (gnu packages fonts)
+#:use-module (gnu packages fontutils)
+#:use-module (gnu packages freedesktop)
+#:use-module (gnu packages gimp)
+#:use-module (gnu packages graphics)
+#:use-module (gnu packages gtk)
+#:use-module (gnu packages hardware)
+#:use-module (gnu packages libreoffice)
+#:use-module (gnu packages linux)
+#:use-module (gnu packages kde)
+#:use-module (gnu packages image)
+#:use-module (gnu packages image-viewers)
+#:use-module (gnu packages inkscape)
+#:use-module (gnu packages music)
+#:use-module (gnu packages pulseaudio)
+#:use-module (gnu packages qt)
+#:use-module (gnu packages terminals)
+#:use-module (gnu packages virtualization)
+#:use-module (gnu packages web)
+#:use-module (gnu packages wm)
+#:use-module (gnu packages xdisorg)
+#:use-module (gnu packages xorg)
+#:use-module (nongnu packages mozilla)
 
-  ;; for engineering packages
-  #:use-module (gnu packages engineering)
-  #:use-module (gnu packages electronics)
+;; for emacs packages
+#:use-module (gnu packages emacs)
+#:use-module (gnu packages emacs-xyz)
+#:use-module (gnu packages cmake)
+#:use-module (gnu packages llvm)
 
-  ;; for latex packages
-  #:use-module (gnu packages tex)
-  #:use-module (gnu packages texlive)
+;; for engineering packages
+#:use-module (gnu packages engineering)
+#:use-module (gnu packages electronics)
 
-  ;; for misc packages
-  #:use-module (gnu packages algebra)
-  #:use-module (gnu packages astronomy)
-  #:use-module (gnu packages plan9)
+;; for latex packages
+#:use-module (gnu packages tex)
+#:use-module (gnu packages texlive)
 
-  ;; for nvidia packages
-  #:use-module (nongnu packages nvidia)
+;; for misc packages
+#:use-module (gnu packages algebra)
+#:use-module (gnu packages astronomy)
+#:use-module (gnu packages plan9)
 
-  ;; for programming packages
-  #:use-module (gnu packages base)
-  #:use-module (gnu packages cmake)
-  #:use-module (gnu packages commencement)
-  #:use-module (gnu packages pkg-config)
-  #:use-module (gnu packages m4)
-  #:use-module (gnu packages rust)
-  #:use-module (gnu packages rust-apps)
-  #:use-module (gnu packages python)
-  #:use-module (gnu packages qt)
-  #:use-module (gnu packages valgrind)
-  #:use-module (gnu packages linux)
-  #:use-module (gnu packages embedded)
+;; for nvidia packages
+#:use-module (nongnu packages nvidia)
 
-  ;; for wyvernh packages
-  ;#:use-module (wyvernh packages cognition)
-  ;#:use-module (wyvernh packages cogsh)
+;; for programming packages
+#:use-module (gnu packages base)
+#:use-module (gnu packages cmake)
+#:use-module (gnu packages commencement)
+#:use-module (gnu packages pkg-config)
+#:use-module (gnu packages m4)
+#:use-module (gnu packages rust)
+#:use-module (gnu packages rust-apps)
+#:use-module (gnu packages python)
+#:use-module (gnu packages qt)
+#:use-module (gnu packages valgrind)
+#:use-module (gnu packages linux)
+#:use-module (gnu packages embedded)
 
-  #:export (packages-environment))
+;; for wyvernh packages
+;#:use-module (wyvernh packages cognition)
+;#:use-module (wyvernh packages cogsh)
+
+#:export (packages-environment))
 
 (define core
   (list htop
