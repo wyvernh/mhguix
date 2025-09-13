@@ -9,7 +9,7 @@
 (system-config
  ;#:filesystems '((fs-efi #:size (* 40 MiB) #:label "ISO_ESP")
  ;                (fs-root #:size 'guess #:label "ISO_Root" #:type "ext4"))
- #:filesystems '((fs-root #:size 'guess #:label "GUIX_IMAGE"))
+ #:filesystems '((fs-root #:size 'guess #:type "iso9660" #:label "GUIX_IMAGE"))
  #:users '((basic-user "iso"))
  #:groups '()
  #:channels '(guix-science-nonfree)
