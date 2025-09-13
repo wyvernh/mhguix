@@ -45,4 +45,4 @@
 (define (groups-from groups users)
   (delete-duplicates
    (append %base-groups (eval-map groups current-env) (user-groups users))
-   (lambda (gp1 gp2) (eq? (user-group-name gp1) (user-group-name gp2)))))
+   (lambda (gp1 gp2) (string=? (user-group-name gp1) (user-group-name gp2)))))
