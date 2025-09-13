@@ -73,6 +73,10 @@
     (packages default-packages)
     (services default-services))
 
+   (define svcs
+     (services-from services channels hardware
+                    (users-from users) (list-copy packages)))
+
    (set!
     os
     (operating-system
@@ -94,7 +98,7 @@
      (users (users-from users))
      (groups (groups-from groups users))
      (packages (packages-from packages))
-     (services (services-from services channels hardware (users-from users) packages))))
+     (services svcs)))
 
    (set! disk (disk-from filesystems drive))
 

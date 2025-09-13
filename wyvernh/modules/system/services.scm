@@ -32,6 +32,7 @@
   #:use-module (gnu system privilege)
   #:use-module (nongnu packages nvidia)
   #:use-module (nongnu services nvidia)
+  #:use-module (guix channels)
   #:use-module (srfi srfi-1)
   #:export (services-from))
 
@@ -216,8 +217,8 @@
   (map get-channel-from (delete-duplicates lst eq?)))
 
 (define (channel-list channels packages)
-   (append (get-channels (append channels (eval-reduce packages)))
-           %wyvernh-base-channels))
+  (append (get-channels (append channels (eval-reduce packages current-env)))
+          %wyvernh-base-channels))
 
 (define (services-from svcs channels hardware users packages)
   (add-channels
