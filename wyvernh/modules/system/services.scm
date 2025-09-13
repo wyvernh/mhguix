@@ -194,6 +194,13 @@
 
 (define amdgpu (lambda (lst _) lst))
 
+;; PACKAGE CHANNELS
+
+(define core '())
+(define extras '())
+
+;; Build services-from
+
 (define current-env (interaction-environment))
 
 (define (get-lambdas sources)
@@ -202,11 +209,18 @@
 (define (apply-lambdas sources users lst)
   (fold (lambda (proc l) (apply proc (list l users))) lst (get-lambdas sources)))
 
-(define (channel-list channels)
-  (append (eval-reduce channels current-env) %wyvernh-base-channels))
+(define (get-channel-from symbol)
+  (find (lambda (e) (eq? symbol (channel-name e))) %wyvernh-channels))
 
-(define (services-from svcs channels hardware users)
+(define (get-channels lst)
+  (map get-channel-from (delete-duplicates lst eq?)))
+
+(define (channel-list channels packages)
+   (append (get-channels (append channels (eval-reduce packages)))
+           %wyvernh-base-channels))
+
+(define (services-from svcs channels hardware users packages)
   (add-channels
-   (channel-list channels)
+   (channel-list channels packages)
    (apply-lambdas hardware users
                   (apply-lambdas svcs users %wyvernh-base-services))))

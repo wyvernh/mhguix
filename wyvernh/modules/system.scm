@@ -94,7 +94,7 @@
      (users (users-from users))
      (groups (groups-from groups users))
      (packages (packages-from packages))
-     (services (services-from services channels hardware (users-from users)))))
+     (services (services-from services channels hardware (users-from users) packages))))
 
    (set! disk (disk-from filesystems drive))
 
