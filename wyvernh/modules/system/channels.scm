@@ -65,3 +65,22 @@
            "0c119db2ea86a389769f4d2b9c6f5c41c027e336"
            (openpgp-fingerprint
             "3CE4 6455 8A84 FDC6 9DB4  0CFB 090B 1199 3D9A EBB5"))))))
+
+(list (channel
+       (name 'mhguix)
+       (url "https://github.com/wyvernh/mhguix"))
+      (channel
+       (name 'nonguix)
+       (url "https://gitlab.com/nonguix/nonguix"))
+      (channel
+       (name 'guix)
+       (url "https://git.guix.gnu.org/guix.git"))
+      (channel
+       (name 'guix-science-nonfree)
+       (url "https://codeberg.org/guix-science/guix-science-nonfree.git"))
+      (channel
+       (name 'guix-science)
+       (url "https://codeberg.org/guix-science/guix-science.git"))
+      (channel
+       (name 'guix-past)
+       (url "https://codeberg.org/guix-science/guix-past.git")))
