@@ -1,42 +1,50 @@
 (define-module (wyvernh modules system services kmonad)
-  ;#:use-module (wyvernh packages kmonad)
+  #:use-module (wyvernh packages configuration)
   #:use-module (gnu packages haskell-apps)
   #:use-module (gnu services)
+  #:use-module (gnu services base)
   #:use-module (gnu services shepherd)
   #:use-module (guix gexp)
-  #:export (kmonad-service))
+  #:use-module (guix records)
+  #:export (kmonad-service-type
+            kmonad-configuration
+            make-kmonad-configuration
+            kmonad-configuration?
+            kmonad-configuration-hostname))
 
-(define (kmonad-package-list _)
-  (list kmonad))
-;;        kmonad-config))
-
-(define (kmonad-shepherd-service config-path)
-  ;; Tells shepherd how we want it to create a (single) <shepherd-service>
-  ;; for kmonad from a string
-  (list (shepherd-service
-          (documentation "Run the kmonad daemon (kmonad-daemon).")
-          (provision '(kmonad-daemon))
-          (requirement '(udev user-processes))
-          (start #~(make-forkexec-constructor
-                    (list #$(file-append kmonad "/bin/kmonad")
-                          ;; TODO: replace with
-                          ;; #$(file-append kmonad-config "/config.kbd"
-                          ;; once a package for my kmonad config exists
-                          #$config-path)))
-          (stop #~(make-kill-destructor)))))
+(define-record-type* <kmonad-configuration>
+  kmonad-configuration
+  make-kmonad-configuration
+  kmonad-configuration?
+  (hostname kmonad-configuration-hostname
+            (default "default")))
 
 (define kmonad-service-type
-  ;; Extend the shepherd root into a new type of service that takes a single string
   (service-type
    (name 'kmonad)
-   (description
-    "Run kmonad as a daemon.")
    (extensions
-    (list (service-extension shepherd-root-service-type
-                             kmonad-shepherd-service)
-          (service-extension profile-service-type
-                             kmonad-package-list)))))
-
-(define (kmonad-service config-path)
-  ;; Create a service from our service type, which takes a single parameter
-  (service kmonad-service-type config-path))
+    (list
+     (service-extension
+      shepherd-root-service-type
+      (lambda (config)
+        (let ((hostname (kmonad-configuration-hostname config)))
+          (list
+           (shepherd-service
+            (provision '(kmonad))
+            (requirement '(udev user-processes))
+            (start #~(make-forkexec-constructor
+                      (list #$(file-append kmonad "/bin/kmonad")
+                            #$(file-append kmonad-config
+                                           (string-append "/share/kmonad/" hostname ".kbd")))))
+            (stop #~(make-kill-destructor))
+            (documentation
+             "Run kmonad with a custom configuration.")))
+          '())))
+     (service-extension
+      profile-service-type
+      (lambda (config)
+        (list kmonad kmonad-config)))))
+   (description
+    "Run the kmonad keyboard remapper with a specific configuration
+package and input device.")
+   (default-value (kmonad-configuration (hostname "default")))))

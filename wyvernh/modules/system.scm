@@ -74,8 +74,7 @@
     (services default-services))
 
    (define svcs
-     (services-from services channels hardware
-                    (users-from users) (list-copy packages)))
+     (services-from services channels hardware (users-from users) (get-hostname) (list-copy packages)))
 
    (set!
     os

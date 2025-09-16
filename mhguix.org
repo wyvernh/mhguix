@@ -536,8 +536,7 @@ returns.
       (services default-services))
 
      (define svcs
-       (services-from services channels hardware
-                      (users-from users) (list-copy packages)))
+       (services-from services channels hardware (users-from users) (get-hostname) (list-copy packages)))
 
      (set!
       os
@@ -884,9 +883,10 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
                      '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6")))))
 
   (define kmonad
-   (lambda (lst _)
+   (lambda (lst users hostname)
      (cons
-      (kmonad-service "/root/.config/kmonad/config.kbd")
+      (service kmonad-service-type (kmonad-configuration
+                                    (hostname hostname)))
       (modify-services
        lst
        (udev-service-type
@@ -896,7 +896,7 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
                                 (udev-configuration-rules config)))))))))
 
   (define autologin
-    (lambda (lst users)
+    (lambda (lst users hostname)
       (if (zero? (length users))
           lst
           (let ((name (user-account-name (car users))))
@@ -919,7 +919,7 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
       (using-setuid? #f))))
 
   (define desktop
-    (lambda (lst _)
+    (lambda (lst users hostname)
       (cons*
        %swaylock-service
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
@@ -983,7 +983,7 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
        lst)))
 
   (define substitutes
-    (lambda (lst _)
+    (lambda (lst users hostname)
       (modify-services
        lst
        (guix-service-type
@@ -1013,12 +1013,12 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
 
   ;; HARDWARE OPTIONS
 
-  (define intel (lambda (lst _) lst))
+  (define intel (lambda (lst users hostname) lst))
 
-  (define amd (lambda (lst _) lst))
+  (define amd (lambda (lst users hostname) lst))
 
   (define nvidia
-    (lambda (lst _)
+    (lambda (lst users hostname)
       (cons*
        (service nvidia-service-type)
        (simple-service
@@ -1031,7 +1031,7 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
                   "nvidia_uvm"))
        lst)))
 
-  (define amdgpu (lambda (lst _) lst))
+  (define amdgpu (lambda (lst users hostname) lst))
 
   ;; PACKAGE CHANNELS
 
@@ -1045,8 +1045,8 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
   (define (get-lambdas sources)
     (map (lambda (datum) (if (symbol? datum) (eval datum current-env) datum)) sources))
 
-  (define (apply-lambdas sources users lst)
-    (fold (lambda (proc l) (apply proc (list l users))) lst (get-lambdas sources)))
+  (define (apply-lambdas sources users hostname lst)
+    (fold (lambda (proc l) (apply proc (list l users hostname))) lst (get-lambdas sources)))
 
   (define (get-channel-from symbol)
     (find (lambda (e) (eq? symbol (channel-name e))) %wyvernh-channels))
@@ -1058,57 +1058,65 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
     (append (get-channels (append channels (eval-reduce packages current-env)))
             %wyvernh-base-channels))
 
-  (define (services-from svcs channels hardware users packages)
+  (define (services-from svcs channels hardware users hostname packages)
     (add-channels
      (channel-list channels packages)
-     (apply-lambdas hardware users
-                    (apply-lambdas svcs users %wyvernh-base-services))))
+     (apply-lambdas hardware users hostname
+                    (apply-lambdas svcs users hostname %wyvernh-base-services))))
 #+end_src
 
 *kmonad.scm*
 #+begin_src scheme :tangle ./wyvernh/modules/system/services/kmonad.scm
   (define-module (wyvernh modules system services kmonad)
-    ;#:use-module (wyvernh packages kmonad)
+    #:use-module (wyvernh packages configuration)
     #:use-module (gnu packages haskell-apps)
     #:use-module (gnu services)
+    #:use-module (gnu services base)
     #:use-module (gnu services shepherd)
     #:use-module (guix gexp)
-    #:export (kmonad-service))
+    #:use-module (guix records)
+    #:export (kmonad-service-type
+              kmonad-configuration
+              make-kmonad-configuration
+              kmonad-configuration?
+              kmonad-configuration-hostname))
 
-  (define (kmonad-package-list _)
-    (list kmonad))
-  ;;        kmonad-config))
-
-  (define (kmonad-shepherd-service config-path)
-    ;; Tells shepherd how we want it to create a (single) <shepherd-service>
-    ;; for kmonad from a string
-    (list (shepherd-service
-            (documentation "Run the kmonad daemon (kmonad-daemon).")
-            (provision '(kmonad-daemon))
-            (requirement '(udev user-processes))
-            (start #~(make-forkexec-constructor
-                      (list #$(file-append kmonad "/bin/kmonad")
-                            ;; TODO: replace with
-                            ;; #$(file-append kmonad-config "/config.kbd"
-                            ;; once a package for my kmonad config exists
-                            #$config-path)))
-            (stop #~(make-kill-destructor)))))
+  (define-record-type* <kmonad-configuration>
+    kmonad-configuration
+    make-kmonad-configuration
+    kmonad-configuration?
+    (hostname kmonad-configuration-hostname
+              (default "default")))
 
   (define kmonad-service-type
-    ;; Extend the shepherd root into a new type of service that takes a single string
     (service-type
      (name 'kmonad)
-     (description
-      "Run kmonad as a daemon.")
      (extensions
-      (list (service-extension shepherd-root-service-type
-                               kmonad-shepherd-service)
-            (service-extension profile-service-type
-                               kmonad-package-list)))))
-
-  (define (kmonad-service config-path)
-    ;; Create a service from our service type, which takes a single parameter
-    (service kmonad-service-type config-path))
+      (list
+       (service-extension
+        shepherd-root-service-type
+        (lambda (config)
+          (let ((hostname (kmonad-configuration-hostname config)))
+            (list
+             (shepherd-service
+              (provision '(kmonad))
+              (requirement '(udev user-processes))
+              (start #~(make-forkexec-constructor
+                        (list #$(file-append kmonad "/bin/kmonad")
+                              #$(file-append kmonad-config
+                                             (string-append "/share/kmonad/" hostname ".kbd")))))
+              (stop #~(make-kill-destructor))
+              (documentation
+               "Run kmonad with a custom configuration.")))
+            '())))
+       (service-extension
+        profile-service-type
+        (lambda (config)
+          (list kmonad kmonad-config)))))
+     (description
+      "Run the kmonad keyboard remapper with a specific configuration
+  package and input device.")
+     (default-value (kmonad-configuration (hostname "default")))))
 #+end_src
 
 *** User Accounts
@@ -1239,11 +1247,134 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
 
 * Packages
 
-Currently no working package definitions.
+** Configurations
+
+I have a small set of packages which require such extensive configuration as to warrant
+their own packages dedicated to installing that configuration. These packages of course
+include ~emacs~ (unless I find a way to configure it in scheme) and also ~kmonad~, which
+is soon to be replaced with ~kanata~.
+
+#+begin_src scheme :tangle ./wyvernh/packages/configuration.scm
+  (define-module (wyvernh packages configuration)
+    #:use-module (guix licenses)
+    #:use-module (guix packages)
+    #:use-module (guix download)
+    #:use-module (guix git)
+    #:use-module (guix git-download)
+    #:use-module (guix utils)
+    #:use-module (gnu packages)
+    #:use-module (guix build-system copy))
+#+end_src
+
+*** kmonad-config
+This package installs my kmonad configuration and is included in the kmonad service.
+#+begin_src scheme :tangle ./wyvernh/packages/configuration.scm
+  (define-public kmonad-config
+    (package
+     (name "kmonad-config")
+     (version "0.1.0")
+     (source
+      (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/wyvernh/constellation.git")
+             (commit "a6853fb8a0c365cf911b390d10c1a038464727c3")))
+       (sha256
+        (base32
+         "1995hx2cajd1ajk55jfpg0psapplmc5yf7h0qzfiqma1jlnp5gld"))))
+     (build-system copy-build-system)
+     (arguments
+      `(#:install-plan `(("config/kmonad/config.kbd" "share/kmonad/baywyvernh.kbd"))))
+     (synopsis "A keyboard layout for kmonad.")
+     (description "This package contains a keyboard layout so that the kmonad shepherd
+  service can install and run kmonad as well as its configuration.")
+     (home-page "https://github.com/wyvernh/constellation")
+     (license expat)))
+#+end_src
+
+*** emacs-config
+This package installs my emacs configuration and is included in the emacs home service.
+#+begin_src scheme :tangle ./wyvernh/packages/configuration.scm
+  (define-public emacs-config
+    (package
+     (name "emacs-config")
+     (version "0.1.0")
+     (source
+      (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/wyvernh/constellation.git")
+             (commit "72df283fdd2348a2bc98ff0a1f47174ea4105497")))
+       (sha256
+        (base32
+         "0dy7kam835l2znqpapm0gc5by4bx513r3wmznvmca0rp8679889j"))))
+     (build-system copy-build-system)
+     (arguments
+      `(#:install-plan `(("config/emacs/init.el" "config/emacs/init.el"))))
+     (synopsis "An emacs configuration.")
+     (description "This package provides an emacs configuration that can be linked to the
+  $HOME/.config/emacs directory by a home service.")
+     (home-page "https://github.com/wyvernh/constellation")
+     (license expat)))
+#+end_src
+
+** Utils
+
+*** mhdisk
+
+*** guix-installer
+
+*** guix-scripts
+
+** Personal Packages
+
+** Other Packages
+
+*** kanata
+Currently broken package. Probably missing dependencies.
+#+begin_src scheme :tangle ./wyvernh/packages/kanata.scm
+  (define-module (wyvernh packages kanata)
+    #:use-module (guix)
+    #:use-module (guix build-system cargo)
+    #:use-module (guix licenses)
+    #:use-module (gnu packages)
+    #:use-module (gnu packages xorg)
+    #:use-module (gnu packages freedesktop)
+    #:use-module (gnu packages python))
+
+  (define-public kanata
+    (package
+     (name "kanata")
+     (version "1.9.0")
+     (source (origin
+              (method url-fetch)
+              (uri (string-append "https://github.com/jtroo/kanata/archive/v"
+                                  version ".tar.gz"))
+              (sha256
+               (base32 "1dil3kvmhfy0dwrrdyb7w12w5diss8j3m3r853119bhpfd6fsjvm"))))
+
+     (build-system cargo-build-system)
+     (arguments
+      `(#:features '("cmd")
+        #:cargo-build-flags '("--release")))
+     (inputs
+      `(("libevdev" ,libevdev)
+        ("python-libevdev" ,python-libevdev)
+      ;  ("libinput" ,libinput)
+        ("python" ,python)))
+     (home-page "https://github.com/jtroo/kanata")
+     (synopsis "A keyboard remapper for Linux")
+     (description
+      "Kanata is a keyboard remapping utility for Linux with a focus on usability,
+  advanced customization, and cross-platform support.")
+     (license lgpl3+)))
+
+  kanata
+#+end_src
+
 
 ** TODO
-kmonad config
-emacs config
+all utils
 cognition
 cogsh
 ollama-cuda

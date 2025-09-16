@@ -46,9 +46,10 @@
                    '("tty1" "tty2" "tty3" "tty4" "tty5" "tty6")))))
 
 (define kmonad
- (lambda (lst _)
+ (lambda (lst users hostname)
    (cons
-    (kmonad-service "/root/.config/kmonad/config.kbd")
+    (service kmonad-service-type (kmonad-configuration
+                                  (hostname hostname)))
     (modify-services
      lst
      (udev-service-type
@@ -58,7 +59,7 @@
                               (udev-configuration-rules config)))))))))
 
 (define autologin
-  (lambda (lst users)
+  (lambda (lst users hostname)
     (if (zero? (length users))
         lst
         (let ((name (user-account-name (car users))))
@@ -81,7 +82,7 @@
     (using-setuid? #f))))
 
 (define desktop
-  (lambda (lst _)
+  (lambda (lst users hostname)
     (cons*
      %swaylock-service
      (udev-rules-service 'pipewire-add-udev-rules pipewire)
@@ -145,7 +146,7 @@
      lst)))
 
 (define substitutes
-  (lambda (lst _)
+  (lambda (lst users hostname)
     (modify-services
      lst
      (guix-service-type
@@ -175,12 +176,12 @@
 
 ;; HARDWARE OPTIONS
 
-(define intel (lambda (lst _) lst))
+(define intel (lambda (lst users hostname) lst))
 
-(define amd (lambda (lst _) lst))
+(define amd (lambda (lst users hostname) lst))
 
 (define nvidia
-  (lambda (lst _)
+  (lambda (lst users hostname)
     (cons*
      (service nvidia-service-type)
      (simple-service
@@ -193,7 +194,7 @@
                 "nvidia_uvm"))
      lst)))
 
-(define amdgpu (lambda (lst _) lst))
+(define amdgpu (lambda (lst users hostname) lst))
 
 ;; PACKAGE CHANNELS
 
@@ -207,8 +208,8 @@
 (define (get-lambdas sources)
   (map (lambda (datum) (if (symbol? datum) (eval datum current-env) datum)) sources))
 
-(define (apply-lambdas sources users lst)
-  (fold (lambda (proc l) (apply proc (list l users))) lst (get-lambdas sources)))
+(define (apply-lambdas sources users hostname lst)
+  (fold (lambda (proc l) (apply proc (list l users hostname))) lst (get-lambdas sources)))
 
 (define (get-channel-from symbol)
   (find (lambda (e) (eq? symbol (channel-name e))) %wyvernh-channels))
@@ -220,8 +221,8 @@
   (append (get-channels (append channels (eval-reduce packages current-env)))
           %wyvernh-base-channels))
 
-(define (services-from svcs channels hardware users packages)
+(define (services-from svcs channels hardware users hostname packages)
   (add-channels
    (channel-list channels packages)
-   (apply-lambdas hardware users
-                  (apply-lambdas svcs users %wyvernh-base-services))))
+   (apply-lambdas hardware users hostname
+                  (apply-lambdas svcs users hostname %wyvernh-base-services))))
