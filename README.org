@@ -2,6 +2,9 @@
 #+author: Matthew Hinton
 #+description: A Guix channel with a fully abstracted configuration system to build and deploy Guix systems
 
+* Documentation
+Check out the [[file:mhguix.org][Org file]].
+
 * TODO
 All packages that need configuration will be installed via a service that also installs
 their configuration (as well as potentially other helper packages).
