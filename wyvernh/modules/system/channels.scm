@@ -75,12 +75,12 @@
       (channel
        (name 'guix)
        (url "https://git.guix.gnu.org/guix.git"))
-      (channel
-       (name 'guix-science-nonfree)
-       (url "https://codeberg.org/guix-science/guix-science-nonfree.git"))
-      (channel
-       (name 'guix-science)
-       (url "https://codeberg.org/guix-science/guix-science.git"))
-      (channel
-       (name 'guix-past)
-       (url "https://codeberg.org/guix-science/guix-past.git")))
+      ;(channel
+      ; (name 'guix-science-nonfree)
+      ; (url "https://codeberg.org/guix-science/guix-science-nonfree.git"))
+      ;(channel
+      ; (name 'guix-science)
+      ; (url "https://codeberg.org/guix-science/guix-science.git"))
+      ;(channel
+      ; (name 'guix-past)
+      ; (url "https://codeberg.org/guix-science/guix-past.git")))
