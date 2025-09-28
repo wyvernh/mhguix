@@ -660,6 +660,7 @@ by ~guix describe --format=channels~ to get the most recent commits for each cha
         ;(channel
         ; (name 'guix-past)
         ; (url "https://codeberg.org/guix-science/guix-past.git")))
+        )
 #+end_src
 
 *** Filesystems

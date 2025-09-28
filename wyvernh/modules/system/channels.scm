@@ -84,3 +84,4 @@
       ;(channel
       ; (name 'guix-past)
       ; (url "https://codeberg.org/guix-science/guix-past.git")))
+      )
