@@ -1348,10 +1348,10 @@ It is the Guix equivalent of *disko* from NixOS.
        (method git-fetch)
        (uri (git-reference
              (url "https://github.com/wyvernh/constellation.git")
-             (commit "a6853fb8a0c365cf911b390d10c1a038464727c3")))
+             (commit "05d855dc28d307a71f9000a465d8b5c7d0597f0b")))
        (sha256
         (base32
-         "1995hx2cajd1ajk55jfpg0psapplmc5yf7h0qzfiqma1jlnp5gld"))))
+         "1995hx2cajd1ajk55jfpg0ps0pplmc5yf7h0qzfiqma1jlnp5gld"))))
      (build-system copy-build-system)
      (arguments
       `(#:install-plan `(("utils/mhdisk/bin" "bin")
