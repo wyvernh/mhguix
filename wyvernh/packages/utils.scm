@@ -21,7 +21,7 @@
            (commit "05d855dc28d307a71f9000a465d8b5c7d0597f0b")))
      (sha256
       (base32
-       "1995hx2cajd1ajk55jfpg0ps0pplmc5yf7h0qzfiqma1jlnp5gld"))))
+       "0gnlkqqscd062453fqx6ssyr9cx6wl6zva2480m7n26726rl6alw"))))
    (build-system copy-build-system)
    (arguments
     `(#:install-plan `(("utils/mhdisk/bin" "bin")
