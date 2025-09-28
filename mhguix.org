@@ -1322,7 +1322,7 @@ This package installs my emacs configuration and is included in the emacs home s
 ** Utils
 
 #+begin_src scheme :tangle ./wyvernh/packages/utils.scm
-  (define-module (wyvernh packages configuration)
+  (define-module (wyvernh packages utils)
     #:use-module (guix licenses)
     #:use-module (guix packages)
     #:use-module (guix download)

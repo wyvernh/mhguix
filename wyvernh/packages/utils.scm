@@ -1,4 +1,4 @@
-(define-module (wyvernh packages configuration)
+(define-module (wyvernh packages utils)
   #:use-module (guix licenses)
   #:use-module (guix packages)
   #:use-module (guix download)
