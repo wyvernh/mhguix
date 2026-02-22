@@ -7,7 +7,7 @@
          (url "https://github.com/wyvernh/mhguix")
          (branch "master")
          (commit
-          "50dcb7d21e1e2f486473a392c04e90d0329485d1"))
+          "ac305a2846e664f2cf4a50d1f077aa0a200bdf77"))
         (channel
          (name 'nonguix)
          (url "https://gitlab.com/nonguix/nonguix")
