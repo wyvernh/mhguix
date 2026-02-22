@@ -12,8 +12,8 @@
  #:filesystems '((fs-root #:size 'guess #:type "iso9660" #:label "GUIX_IMAGE"))
  #:users '((basic-user "iso"))
  #:groups '()
- #:packages '(core installer)
- #:services '(autologin substitutes network-manager))
+ #:packages '(core)
+ #:services '(autologin substitutes))
 
 (os->image os #:type iso-image-type)
 
