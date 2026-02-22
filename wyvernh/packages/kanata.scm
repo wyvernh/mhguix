@@ -33,5 +33,3 @@
     "Kanata is a keyboard remapping utility for Linux with a focus on usability,
 advanced customization, and cross-platform support.")
    (license lgpl3+)))
-
-kanata
