@@ -35,7 +35,8 @@
             (start #~(make-forkexec-constructor
                       (list #$(file-append kmonad "/bin/kmonad")
                             #$(file-append kmonad-config
-                                           (string-append "/share/kmonad/" hostname ".kbd")))))
+                                           (string-append "/share/kmonad/" hostname ".kbd")))
+                      #:log-file "/var/log/kmonad-daemon.log"))
             (stop #~(make-kill-destructor))
             (documentation
              "Run kmonad with a custom configuration.")))
