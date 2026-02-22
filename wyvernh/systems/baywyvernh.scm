@@ -17,5 +17,6 @@
                  (fs-other #:size (* 128 GiB) #:type "ext4" #:label "Nix")
                  (fs-swap #:size (* 32 GiB))
                  (fs-home #:size 'guess #:type "btrfs"))
- #:channels '(guix-science-nonfree)
+ ;#:channels '(guix-science-nonfree)
+ #:channels '()
  #:services '(kmonad desktop substitutes))
