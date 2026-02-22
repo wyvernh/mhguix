@@ -822,7 +822,7 @@ by ~guix describe --format=channels~ to get the most recent commits for each cha
     (list bluez
           bluez-alsa
           brightnessctl
-          kmonad
+;          kmonad
           ntfs-3g
           stow))
 
@@ -1091,7 +1091,7 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
 
   (define kmonad-service-type
     (service-type
-     (name 'kmonad)
+     (name 'kmonad-daemon)
      (extensions
       (list
        (service-extension
@@ -1100,7 +1100,7 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
           (let ((hostname (kmonad-configuration-hostname config)))
             (list
              (shepherd-service
-              (provision '(kmonad))
+              (provision '(kmonad-daemon))
               (requirement '(udev user-processes))
               (start #~(make-forkexec-constructor
                         (list #$(file-append kmonad "/bin/kmonad")

@@ -21,7 +21,7 @@
 
 (define kmonad-service-type
   (service-type
-   (name 'kmonad)
+   (name 'kmonad-daemon)
    (extensions
     (list
      (service-extension
@@ -30,7 +30,7 @@
         (let ((hostname (kmonad-configuration-hostname config)))
           (list
            (shepherd-service
-            (provision '(kmonad))
+            (provision '(kmonad-daemon))
             (requirement '(udev user-processes))
             (start #~(make-forkexec-constructor
                       (list #$(file-append kmonad "/bin/kmonad")
