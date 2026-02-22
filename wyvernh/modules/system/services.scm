@@ -72,6 +72,13 @@
                            (auto-login name))
                           config)))))))
 
+(define network-manager
+  (lambda (lst users hostname)
+    (cons*
+     (service network-manager-service-type)
+     (service wpa-supplicant-service-type)
+     lst)))
+
 (define %swaylock-service
   (service
    screen-locker-service-type

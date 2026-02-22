@@ -812,6 +812,7 @@ by ~guix describe --format=channels~ to get the most recent commits for each cha
     #:use-module (gnu packages package-management)
     #:use-module (gnu packages linux)
     #:use-module (gnu packages version-control)
+    #:use-module (wyvernh packages utils)
     #:export (packages-from))
 
   (define core
@@ -822,9 +823,13 @@ by ~guix describe --format=channels~ to get the most recent commits for each cha
     (list bluez
           bluez-alsa
           brightnessctl
-;          kmonad
+                                          ;          kmonad
           ntfs-3g
           stow))
+
+  (define installer
+    (list mhdisk
+          guix-installer))
 
   (define current-env (interaction-environment))
 
@@ -909,6 +914,13 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
                              (inherit config)
                              (auto-login name))
                             config)))))))
+
+  (define network-manager
+    (lambda (lst users hostname)
+      (cons*
+       (service network-manager-service-type)
+       (service wpa-supplicant-service-type)
+       lst)))
 
   (define %swaylock-service
     (service
@@ -1217,8 +1229,8 @@ packages. So the ~packages~ argument to ~services-from~ only merely needs to add
    #:filesystems '((fs-root #:size 'guess #:type "iso9660" #:label "GUIX_IMAGE"))
    #:users '((basic-user "iso"))
    #:groups '()
-   #:packages '(core)
-   #:services '(autologin substitutes))
+   #:packages '(core installer)
+   #:services '(autologin substitutes network-manager))
 
   (os->image os #:type iso-image-type)
 
