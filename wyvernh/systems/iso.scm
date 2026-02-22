@@ -1,50 +1,61 @@
 (define-module (wyvernh systems iso)
-  #:use-module (wyvernh modules home)
-  #:use-module (wyvernh modules system)
-  #:use-module (gnu image)
-  #:use-module (gnu system)
-  #:use-module (gnu system image)
-  ;#:use-module (guix gexp)
-  #:re-export (os))
+    #:use-module (wyvernh modules home)
+    #:use-module (wyvernh modules system)
+    #:use-module (gnu bootloader)
+    #:use-module (gnu bootloader grub)
+    #:use-module (gnu tests)
+    #:use-module (gnu image)
+    #:use-module (gnu system)
+    #:use-module (gnu system image)
+    #:use-module (gnu system install)
+    #:use-module (gnu system linux-initrd)
+    #:use-module (guix gexp)
+    #:re-export (os))
 
-(system-config
- ;#:filesystems '((fs-efi #:size (* 40 MiB) #:label "ISO_ESP")
- ;                (fs-root #:size 'guess #:label "ISO_Root" #:type "ext4"))
- #:filesystems '((fs-root #:size 'guess #:type "iso9660" #:label "GUIX_IMAGE"))
- #:users '((basic-user "iso"))
- #:groups '()
- #:packages '(core)
- #:services '(autologin substitutes network-manager))
+  (system-config
+                                          ;#:filesystems '((fs-efi #:size (* 40 MiB) #:label "ISO_ESP")
+                                          ;                (fs-root #:size 'guess #:label "ISO_Root" #:type "ext4"))
+   #:filesystems '((fs-root #:size 'guess #:type "iso9660" #:label "GUIX_IMAGE"))
+   #:users '((basic-user "iso"))
+   #:groups '()
+   #:packages '(core)
+   #:services '(autologin substitutes network-manager))
 
-(define iso-os
-  (operating-system
-   (inherit os)
-   (initrd-modules (append '("iso9660" "isofs" "sd_mod" "sr_mod" "usb-storage")
-                           %base-initrd-modules))
-   (bootloader (bootloader-configuration
-                (bootloader grub-bootloader)
-                (targets '("/dev/sdX"))))))
+  (define iso-os
+    (operating-system
+     (inherit %simple-os)
+     (packages (operating-system-packages os))
+     (services (operating-system-user-services os))))
 
-(os->image iso-os #:type iso-image-type #:volatile-root? #t)
+  (define MiB (expt 2 20))
 
-;(image
-; (inherit efi-disk-image)
-; (operating-system os)
-; (partitions
-;  (list (partition
-;         (inherit esp-partition)
-;         (label "ISO_ESP"))
-;        (partition
-;         (size (* 50 (expt 2 20)))
-;         (label "ISO_Data")
-;         (file-system "ext4")
-;         (initializer
-;          #~(lambda* (root . rest)
-;                     (mkdir root)
-;                     (call-with-output-file
-;                         (string-append root "/data")
-;                       (lambda (port)
-;                         (format port "my-data"))))))
-;        (partition
-;         (inherit root-partition)
-;         (label "ISO_Root")))))
+  (image
+   (format 'disk-image)
+   (operating-system iso-os)
+   (partitions
+    (list
+     (partition
+      (size (* 40 MiB))
+      (offset (* 1024 1024))
+      (label "GNU-ESP")
+      (file-system "vfat")
+      (flags '(esp))
+      (initializer (gexp initialize-efi-partition)))
+     (partition
+      (size (* 50 MiB))
+      (label "DATA")
+      (file-system "ext4")
+      (initializer #~(lambda* (root . rest)
+                              (mkdir root)
+                              (call-with-output-file
+                                  (string-append root "/data")
+                                (lambda (port)
+                                  (format port "my-data"))))))
+     (partition
+      (size 'guess)
+      (label root-label)
+      (file-system "ext4")
+      (flags '(boot))
+      (initializer (gexp initialize-root-partition))))))
+
+;;(os->image iso-os #:type iso-image-type)
