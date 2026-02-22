@@ -12,7 +12,6 @@
  #:filesystems '((fs-root #:size 'guess #:type "iso9660" #:label "GUIX_IMAGE"))
  #:users '((basic-user "iso"))
  #:groups '()
- #:channels '(guix-science-nonfree)
  #:packages '(core)
  #:services '(autologin substitutes))
 
