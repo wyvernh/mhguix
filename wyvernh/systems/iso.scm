@@ -2,6 +2,7 @@
   #:use-module (wyvernh modules home)
   #:use-module (wyvernh modules system)
   #:use-module (gnu image)
+  #:use-module (gnu system)
   #:use-module (gnu system image)
   ;#:use-module (guix gexp)
   #:re-export (os))
@@ -15,7 +16,16 @@
  #:packages '(core)
  #:services '(autologin substitutes network-manager))
 
-(os->image os #:type iso-image-type)
+(define iso-os
+  (operating-system
+   (inherit os)
+   (initrd-modules (append '("iso9660" "isofs" "sd_mod" "sr_mod" "usb-storage")
+                           %base-initrd-modules))
+   (bootloader (bootloader-configuration
+                (bootloader grub-bootloader)
+                (targets '("/dev/sdX"))))))
+
+(os->image iso-os #:type iso-image-type #:volatile-root? #t)
 
 ;(image
 ; (inherit efi-disk-image)
