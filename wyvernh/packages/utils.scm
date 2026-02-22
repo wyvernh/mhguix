@@ -42,10 +42,10 @@ using the MHGuix configuration system.")
      (method git-fetch)
      (uri (git-reference
            (url "https://github.com/wyvernh/constellation.git")
-           (commit "a6853fb8a0c365cf911b390d10c1a038464727c3")))
+           (commit "eebe12a32801ccaabc7ba059e68918165bcba937")))
      (sha256
       (base32
-       "1995hx2cajd1ajk55jfpg0psapplmc5yf7h0qzfiqma1jlnp5gld"))))
+       "0zfa6hr8g6q6nhnfi0crd4azsfx4sif8vgvx2hwfigf8p96xlz2f"))))
    (build-system copy-build-system)
    (arguments
     `(#:install-plan `(("utils/guix-installer/bin" "bin"))))
