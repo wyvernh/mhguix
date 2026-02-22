@@ -39,9 +39,7 @@
                       #:log-file "/var/log/kmonad-daemon.log"))
             (stop #~(make-kill-destructor))
             (documentation
-             "Run kmonad with a custom configuration.")))
-          ;'()
-          )))
+             "Run kmonad with a custom configuration."))))))
      (service-extension
       profile-service-type
       (lambda (config)
