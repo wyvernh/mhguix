@@ -6,20 +6,20 @@
   #:use-module (gnu services shepherd)
   #:use-module (guix gexp)
   #:use-module (guix records)
-  #:export (kmonad-service-type
-            kmonad-configuration
-            make-kmonad-configuration
-            kmonad-configuration?
-            kmonad-configuration-hostname))
+  #:export (kmonad-daemon-service-type
+            kmonad-daemon-configuration
+            make-kmonad-daemon-configuration
+            kmonad-daemon-configuration?
+            kmonad-daemon-configuration-hostname))
 
-(define-record-type* <kmonad-configuration>
-  kmonad-configuration
-  make-kmonad-configuration
-  kmonad-configuration?
-  (hostname kmonad-configuration-hostname
+(define-record-type* <kmonad-daemon-configuration>
+  kmonad-daemon-configuration
+  make-kmonad-daemon-configuration
+  kmonad-daemon-configuration?
+  (hostname kmonad-daemon-configuration-hostname
             (default "default")))
 
-(define kmonad-service-type
+(define kmonad-daemon-service-type
   (service-type
    (name 'kmonad-daemon)
    (extensions
@@ -27,7 +27,7 @@
      (service-extension
       shepherd-root-service-type
       (lambda (config)
-        (let ((hostname (kmonad-configuration-hostname config)))
+        (let ((hostname (kmonad-daemon-configuration-hostname config)))
           (list
            (shepherd-service
             (provision '(kmonad-daemon))
@@ -47,4 +47,4 @@
    (description
     "Run the kmonad keyboard remapper with a specific configuration
 package and input device.")
-   (default-value (kmonad-configuration (hostname "default")))))
+   (default-value (kmonad-daemon-configuration (hostname "default")))))

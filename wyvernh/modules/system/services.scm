@@ -48,8 +48,8 @@
 (define kmonad
  (lambda (lst users hostname)
    (cons
-    (service kmonad-service-type (kmonad-configuration
-                                  (hostname hostname)))
+    (service kmonad-daemon-service-type (kmonad-daemon-configuration
+                                         (hostname hostname)))
     (modify-services
      lst
      (udev-service-type
