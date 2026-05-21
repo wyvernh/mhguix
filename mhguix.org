@@ -579,7 +579,7 @@ returns.
            (url "https://github.com/wyvernh/mhguix")
            (branch "master")
            (commit
-            "6be8447d188b1ce9cf11fdc9a0b4682e14a48a2b"))
+            "b793b9af98557d1f9d2a4edf721f358aa8c3cc82"))
           (channel
            (name 'nonguix)
            (url "https://gitlab.com/nonguix/nonguix")
