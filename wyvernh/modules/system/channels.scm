@@ -7,13 +7,13 @@
          (url "https://github.com/wyvernh/mhguix")
          (branch "master")
          (commit
-          "6aecb90d0f511918a34a967656ab6d35547847ac"))
+          "6be8447d188b1ce9cf11fdc9a0b4682e14a48a2b"))
         (channel
          (name 'nonguix)
          (url "https://gitlab.com/nonguix/nonguix")
          (branch "master")
          (commit
-          "7d14e819fc7b2681240023b9e4c001fc3f5cba04")
+          "5f2630e69fbbe9e79c350a67545f0fef7e93e223")
          (introduction
           (make-channel-introduction
            "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
@@ -24,7 +24,7 @@
          (url "https://git.guix.gnu.org/guix.git")
          (branch "master")
          (commit
-          "a58c701785015b0db16739e11380c67c39697f2f")
+          "aa0b0c714bc85a2770dd4873155bc516b6d97df4")
          (introduction
           (make-channel-introduction
            "9edb3f66fd807b096b48283debdcddccfea34bad"
